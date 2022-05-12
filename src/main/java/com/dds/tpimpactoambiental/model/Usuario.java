@@ -1,10 +1,18 @@
 package com.dds.tpimpactoambiental.model;
 
+import javax.persistence.*;
+
+@Entity
+@Table(name="usuario")
 public class Usuario {
 
     public Usuario() {
     }
 
+
+    @Id
+    @GeneratedValue(strategy= GenerationType.IDENTITY)
+    private Long id;
     String username;
     String password;
 

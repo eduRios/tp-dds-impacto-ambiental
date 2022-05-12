@@ -7,7 +7,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 public class TpImpactoAmbientalApplication {
 
 	public static void main(String[] args) {
-		//SpringApplication.run(TpImpactoAmbientalApplication.class, args); por ahora no descomentar ni borrar!
+		SpringApplication.run(TpImpactoAmbientalApplication.class, args);// por ahora no descomentar ni borrar!
 	}
 
 }
