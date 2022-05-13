@@ -17,7 +17,7 @@ public class TpImpactoAmbientalApplication {
 	@Bean
 	public CommandLineRunner initData(UserRepository userRepository){
 		return (args) -> {
-			Usuario usuario= new Usuario("bari","wowesmivida12");
+			Usuario usuario= new Usuario("bari","wowsosmivida12");
 			userRepository.save(usuario);
 		};
 	}
