@@ -29,8 +29,8 @@ public class MemberController {
     @RequestMapping(path = "/registro_org/{idMember}", method = RequestMethod.POST)
     public ResponseEntity<Object> registrarOrganizacion(@PathVariable Long idMember,@RequestBody Organizacion organizacion){
         Matricula matricula = new Matricula();
-        organizationRepository.save(organizacion);
-        matricula.setOrganizacion(organizacion);
+        Organizacion org = organizationRepository.findByRazonSocial(organizacion.getRazonSocial());
+        matricula.setOrganizacion(org);
         Miembro miembro = memberRepository.findById(idMember).get();
         miembro.addMatricula(matricula);
         matriculaRepository.save(matricula);
