@@ -46,7 +46,7 @@ public class UserControllerTest {
 
     @Test
     public void iniciarSesionOk(){
-        Usuario user = new Usuario("bari","wowsosmivida12");
+        Usuario user = new Usuario("bari","wowesmivida12");
         ResponseEntity<Object> response = userController.iniciarSesion(user);
         assertEquals(HttpStatus.OK,response.getStatusCode());
     }
