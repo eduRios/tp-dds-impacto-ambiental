@@ -17,7 +17,9 @@ public class TpImpactoAmbientalApplication {
 	}
 
 	@Bean
-	public CommandLineRunner initData(UserRepository userRepository, MemberRepository memberRepository, OrganizationRepository organizationRepository, MatriculaRepository matriculaRepository, RolRepository rolRepository ){
+	public CommandLineRunner initData(UserRepository userRepository, MemberRepository memberRepository, OrganizationRepository organizationRepository,
+									  MatriculaRepository matriculaRepository, RolRepository rolRepository, MedioTransporteRepository medioTransporteRepository,
+									  TramoRepository tramoRepository){
 		return (args) -> {
 			Usuario usuario= new Usuario("bari","wowesmivida12");
 			Miembro cosme = new Miembro("Cosme","Fulanito","DNI","12345678");
@@ -35,6 +37,10 @@ public class TpImpactoAmbientalApplication {
 			Rol admin = new Rol("ADMIN");
 			Rol user = new Rol("MIEMBRO");
 
+			TransportePublico linea101= new TransportePublico("colectivo","101");
+			ServicioContratado uber = new ServicioContratado("uber");
+			Otro bicicleta = new Otro("bicicleta");
+			Tramo tramo = new Tramo("calle falsa 123","calle falsa 456",uber);
 			memberRepository.save(cosme);
 			memberRepository.save(jhon);
 			memberRepository.save(bari);
@@ -48,6 +54,10 @@ public class TpImpactoAmbientalApplication {
 			userRepository.save(usuario);
 			rolRepository.save(admin);
 			rolRepository.save(user);
+			medioTransporteRepository.save(linea101);
+			medioTransporteRepository.save(uber);
+			medioTransporteRepository.save(bicicleta);
+			tramoRepository.save(tramo);
 		};
 	}
 
