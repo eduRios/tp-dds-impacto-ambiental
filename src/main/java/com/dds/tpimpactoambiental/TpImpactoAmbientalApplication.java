@@ -1,13 +1,7 @@
 package com.dds.tpimpactoambiental;
 
-import com.dds.tpimpactoambiental.model.Matricula;
-import com.dds.tpimpactoambiental.model.Miembro;
-import com.dds.tpimpactoambiental.model.Organizacion;
-import com.dds.tpimpactoambiental.model.Usuario;
-import com.dds.tpimpactoambiental.repository.MatriculaRepository;
-import com.dds.tpimpactoambiental.repository.MemberRepository;
-import com.dds.tpimpactoambiental.repository.OrganizationRepository;
-import com.dds.tpimpactoambiental.repository.UserRepository;
+import com.dds.tpimpactoambiental.model.*;
+import com.dds.tpimpactoambiental.repository.*;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -23,7 +17,7 @@ public class TpImpactoAmbientalApplication {
 	}
 
 	@Bean
-	public CommandLineRunner initData(UserRepository userRepository, MemberRepository memberRepository, OrganizationRepository organizationRepository, MatriculaRepository matriculaRepository ){
+	public CommandLineRunner initData(UserRepository userRepository, MemberRepository memberRepository, OrganizationRepository organizationRepository, MatriculaRepository matriculaRepository, RolRepository rolRepository ){
 		return (args) -> {
 			Usuario usuario= new Usuario("bari","wowesmivida12");
 			Miembro cosme = new Miembro("Cosme","Fulanito","DNI","12345678");
@@ -38,6 +32,9 @@ public class TpImpactoAmbientalApplication {
 			Matricula matricula3 = new Matricula(jhon,asesinos);
 			Matricula matricula4 = new Matricula(bari,coders);
 
+			Rol admin = new Rol("ADMIN");
+			Rol user = new Rol("MIEMBRO");
+
 			memberRepository.save(cosme);
 			memberRepository.save(jhon);
 			memberRepository.save(bari);
@@ -49,6 +46,8 @@ public class TpImpactoAmbientalApplication {
 			matriculaRepository.save(matricula3);
 			matriculaRepository.save(matricula4);
 			userRepository.save(usuario);
+			rolRepository.save(admin);
+			rolRepository.save(user);
 		};
 	}
 

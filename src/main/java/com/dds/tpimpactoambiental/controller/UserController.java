@@ -1,7 +1,9 @@
 package com.dds.tpimpactoambiental.controller;
 
 import com.dds.tpimpactoambiental.exception.PasswordException;
+import com.dds.tpimpactoambiental.model.Rol;
 import com.dds.tpimpactoambiental.model.Usuario;
+import com.dds.tpimpactoambiental.repository.RolRepository;
 import com.dds.tpimpactoambiental.repository.UserRepository;
 import com.dds.tpimpactoambiental.service.ValidatePassword;
 import com.dds.tpimpactoambiental.service.ValidatePasswordImpl;
@@ -10,6 +12,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
+
 @RestController
 @RequestMapping("/user")
 public class UserController {
@@ -17,6 +21,8 @@ public class UserController {
     private ValidatePassword validatePassword = new ValidatePasswordImpl();
     @Autowired
     private UserRepository userRepository;
+    @Autowired
+    RolRepository rolRepository;
     private int intentos =0;
 
     @RequestMapping(path = "/registrar", method = RequestMethod.POST)
@@ -30,6 +36,9 @@ public class UserController {
         Usuario usuario = new Usuario();
         usuario.setUsername(username);
         usuario.setPassword(password);*/
+        Rol rol = rolRepository.findByName(usuario.getRoles().get(0).getName());
+        usuario.setRoles(new ArrayList<>());
+        usuario.getRoles().add(rol);
         userRepository.save(usuario);
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
