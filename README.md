@@ -70,3 +70,8 @@
    "clasificacion" : "Software factory"
 }
 ```
+### En Desarrollo (proximamente)
+* **_Role de usuario_:** ya esta desarrollado, solo falta hacer la relacion con mienbro mas test.
+* **_Trayectoria_:** ya esta desarrollado el modelado de trayectoria, tramo, y medioTransporte. 
+tambien se hizo la relacion tramo x medioTransporte (OneToOne).
+falta la relacion trayectoria x tramo (ManyToOne) y trayectoria x mienbro (OneToMany) mas test.

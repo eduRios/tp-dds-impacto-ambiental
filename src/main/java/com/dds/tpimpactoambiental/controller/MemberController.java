@@ -56,4 +56,8 @@ public class MemberController {
         map.put(key, value);
         return map;
     }
+
+    private ResponseEntity<Object> registrarTrayectoria(){
+        return null;
+    }
 }
