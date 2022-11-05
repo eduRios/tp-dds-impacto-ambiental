@@ -19,7 +19,7 @@ public class ValidatePasswordImpl extends ValidatePassword {
 
         contrasenias = lectorArchivos.devolverContenidoComoListaDeStrings();
 
-        if (contrasenias.stream().anyMatch(contrasenia -> contrasenia.equals(password))){
+        if (contrasenias.stream().anyMatch(contraseña -> contraseña.equals(password))){
             throw new PasswordException("La Password es debil");
         }
     }
