@@ -75,3 +75,16 @@
 * **_Trayectoria_:** ya esta desarrollado el modelado de trayectoria, tramo, y medioTransporte. 
 tambien se hizo la relacion tramo x medioTransporte (OneToOne).
 falta la relacion trayectoria x tramo (ManyToOne) y trayectoria x mienbro (OneToMany) mas test.
+### Registrar Trayectoria  asociado a varios Tramos
+* **_URL_:** http://localhost:8080/member/registrarTrayectoria (POST)
+* **_Request_:**
+```json
+{
+   "tramos":[
+      {
+         "desde":"av libertador 15433",
+         "hasta":"av libertador 1504"
+      }
+   ]
+}
+```
