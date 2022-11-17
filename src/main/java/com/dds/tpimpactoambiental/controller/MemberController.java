@@ -1,11 +1,7 @@
 package com.dds.tpimpactoambiental.controller;
 
-import com.dds.tpimpactoambiental.model.Matricula;
-import com.dds.tpimpactoambiental.model.Miembro;
-import com.dds.tpimpactoambiental.model.Organizacion;
-import com.dds.tpimpactoambiental.repository.MatriculaRepository;
-import com.dds.tpimpactoambiental.repository.MemberRepository;
-import com.dds.tpimpactoambiental.repository.OrganizationRepository;
+import com.dds.tpimpactoambiental.model.*;
+import com.dds.tpimpactoambiental.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -26,6 +22,12 @@ public class MemberController {
     @Autowired
     private MatriculaRepository matriculaRepository;
 
+    @Autowired
+    private TrayectoriaRepository trayectoriaRepository;
+
+    @Autowired
+    private TramoRepository tramoRepository;
+
     @RequestMapping(path = "/registro_org/{idMember}", method = RequestMethod.POST)
     public ResponseEntity<Object> registrarOrganizacion(@PathVariable Long idMember,@RequestBody Organizacion organizacion){
         Matricula matricula = new Matricula();
@@ -43,6 +45,13 @@ public class MemberController {
 
         return new ResponseEntity<>(makeMap("miembroId", miembro.getId()), HttpStatus.CREATED);
     }
+    @RequestMapping(path = "/registrarTrayectoria", method = RequestMethod.POST)
+    public ResponseEntity<Object> registrarTrayectoria(@RequestBody Trayectoria trayectoria){
+        trayectoria.getTramos().forEach(tramo -> tramoRepository.save(tramo));
+        trayectoriaRepository.save(trayectoria);
+        return new ResponseEntity<>(makeMap("trayectoriaId", trayectoria.getId()), HttpStatus.CREATED);
+    }
+
 /*
     @RequestMapping(path = "/ver_org")
     public ResponseEntity<Object> getOrganizaciones(){
@@ -60,4 +69,6 @@ public class MemberController {
     private ResponseEntity<Object> registrarTrayectoria(){
         return null;
     }
+
+
 }
