@@ -44,13 +44,6 @@
 			<artifactId>guava</artifactId>
 			<version>29.0-jre</version>
 		</dependency>
-
-		<!-- https://mvnrepository.com/artifact/org.apache.poi/poi -->
-		<dependency>
-			<groupId>org.apache.poi</groupId>
-			<artifactId>poi-ooxml</artifactId>
-			<version>4.1.2</version>
-		</dependency>
 	</dependencies>
 
 	<build>

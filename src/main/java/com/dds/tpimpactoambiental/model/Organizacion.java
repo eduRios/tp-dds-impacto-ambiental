@@ -22,6 +22,9 @@ public class Organizacion {
     @OneToMany(mappedBy="organizacion", fetch= FetchType.EAGER)
     private List<Matricula> matriculas;
 
+    @OneToMany
+    @JoinColumn(name = "organizacion_id")
+    private List<DatosActividad> datosActividadList;
     public Organizacion() {
     }
 
@@ -63,5 +66,13 @@ public class Organizacion {
     public void addMatricula(Matricula matricula) {
         matricula.setOrganizacion(this);
         matriculas.add(matricula);
+    }
+
+    public List<DatosActividad> getDatosActividadList() {
+        return datosActividadList;
+    }
+
+    public void setDatosActividadList(List<DatosActividad> datosActividadList) {
+        this.datosActividadList = datosActividadList;
     }
 }
