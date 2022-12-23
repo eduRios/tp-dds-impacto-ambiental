@@ -32,11 +32,8 @@ public class UserController {
         }catch (PasswordException e){
             return new ResponseEntity<>(e.getMessage(),HttpStatus.FORBIDDEN);
         }
-/*
-        Usuario usuario = new Usuario();
-        usuario.setUsername(username);
-        usuario.setPassword(password);*/
-        Rol rol = rolRepository.findByName(usuario.getRoles().get(0).getName());
+
+        Rol rol = rolRepository.findByName("MIEMBRO");
         usuario.setRoles(new ArrayList<>());
         usuario.getRoles().add(rol);
         userRepository.save(usuario);
