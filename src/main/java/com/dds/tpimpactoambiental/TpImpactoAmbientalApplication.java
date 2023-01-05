@@ -2,6 +2,8 @@ package com.dds.tpimpactoambiental;
 
 import com.dds.tpimpactoambiental.model.*;
 import com.dds.tpimpactoambiental.repository.*;
+import com.dds.tpimpactoambiental.service.calculodistancias.apidistancias.GeoService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -13,6 +15,7 @@ import java.util.Arrays;
 @SpringBootApplication
 public class TpImpactoAmbientalApplication {
 
+
 	public static void main(String[] args) {
 		SpringApplication.run(TpImpactoAmbientalApplication.class, args);// por ahora no descomentar ni borrar!
 	}
@@ -20,7 +23,7 @@ public class TpImpactoAmbientalApplication {
 	@Bean
 	public CommandLineRunner initData(UserRepository userRepository, MemberRepository memberRepository, OrganizationRepository organizationRepository,
 									  MatriculaRepository matriculaRepository, RolRepository rolRepository, MedioTransporteRepository medioTransporteRepository,
-									  TramoRepository tramoRepository){
+									  TramoRepository tramoRepository, GeoService geoService){
 		return (args) -> {
 			Usuario usuario= new Usuario("bari","wowesmivida12");
 			Miembro cosme = new Miembro("Cosme","Fulanito","DNI","12345678");
@@ -42,6 +45,7 @@ public class TpImpactoAmbientalApplication {
 			ServicioContratado uber = new ServicioContratado("uber");
 			Otro bicicleta = new Otro("bicicleta");
 			//Tramo tramo = new Tramo("calle falsa 123","calle falsa 456",uber);
+			geoService.seedData();
 			memberRepository.save(cosme);
 			memberRepository.save(jhon);
 			memberRepository.save(bari);
