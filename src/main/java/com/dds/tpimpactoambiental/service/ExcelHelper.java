@@ -32,7 +32,7 @@ public class ExcelHelper {
             Workbook workbook = new XSSFWorkbook(is);
             Sheet sheet = workbook.getSheetAt(workbook.getActiveSheetIndex());
             Iterator<Row> rows = sheet.iterator();
-            List<DatosActividad> tutorials = new ArrayList<DatosActividad>();
+            List<DatosActividad> tutorials = new ArrayList<>();
             int rowNumber = 0;
             while (rows.hasNext()) {
                 Row currentRow = rows.next();
@@ -60,8 +60,8 @@ public class ExcelHelper {
                             actividad.setPeriocidad(currentCell.getStringCellValue());
                             break;
                         case 4:
-                            //actividad.setPeriodoImputacion(currentCell.getLocalDateTimeCellValue());
-                            LocalDateTime date = currentCell.getLocalDateTimeCellValue();
+                            actividad.setPeriodoImputacion(currentCell.toString());
+                            //LocalDateTime date = currentCell.getLocalDateTimeCellValue();
                             break;
                         default:
                             break;

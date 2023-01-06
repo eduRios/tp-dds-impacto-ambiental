@@ -3,27 +3,23 @@ package com.dds.tpimpactoambiental.model;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
 @Table(name="miembro")
-public class Miembro {
+public class Miembro extends BaseEntity{
 
-    @Id
-    @GeneratedValue(strategy= GenerationType.IDENTITY)
-    @GenericGenerator(name = "native", strategy = "native")
-    private Long id;
     private String nombre;
     private String apellido;
     private String tipoDocumento;
     private String nroDocumento;
 
-    public Long getId() {
-        return id;
-    }
-
     @OneToMany(mappedBy="miembro", fetch= FetchType.EAGER)
     private List<Matricula> matriculas;
+
+    @ManyToMany(mappedBy = "miembros")
+    private List<Tramo> tramos = new ArrayList<>();
 
     public Miembro() {
     }
@@ -57,6 +53,10 @@ public class Miembro {
     public void addMatricula(Matricula matricula) {
         matricula.setMiembro(this);
         matriculas.add(matricula);
+    }
+
+    public void addTramo(Tramo tramo) {
+        tramos.add(tramo);
     }
 
 }

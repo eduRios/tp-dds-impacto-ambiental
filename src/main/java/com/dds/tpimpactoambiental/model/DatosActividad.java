@@ -2,10 +2,7 @@ package com.dds.tpimpactoambiental.model;
 
 import org.hibernate.annotations.GenericGenerator;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 
 @Entity
 public class DatosActividad {
@@ -20,6 +17,7 @@ public class DatosActividad {
     private long valor;
     private String periocidad;
     private String periodoImputacion;
+
 
     public DatosActividad() {
     }

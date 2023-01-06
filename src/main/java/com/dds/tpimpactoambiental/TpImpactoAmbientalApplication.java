@@ -7,6 +7,7 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 
+import java.io.IOException;
 import java.util.Arrays;
 
 @SpringBootApplication
@@ -40,7 +41,7 @@ public class TpImpactoAmbientalApplication {
 			TransportePublico linea101= new TransportePublico("colectivo","101");
 			ServicioContratado uber = new ServicioContratado("uber");
 			Otro bicicleta = new Otro("bicicleta");
-			Tramo tramo = new Tramo("calle falsa 123","calle falsa 456",uber);
+			//Tramo tramo = new Tramo("calle falsa 123","calle falsa 456",uber);
 			memberRepository.save(cosme);
 			memberRepository.save(jhon);
 			memberRepository.save(bari);
@@ -57,7 +58,7 @@ public class TpImpactoAmbientalApplication {
 			medioTransporteRepository.save(linea101);
 			medioTransporteRepository.save(uber);
 			medioTransporteRepository.save(bicicleta);
-			tramoRepository.save(tramo);
+			//tramoRepository.save(tramo);
 		};
 	}
 
