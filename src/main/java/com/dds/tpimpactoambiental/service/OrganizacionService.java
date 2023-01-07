@@ -1,7 +1,9 @@
 package com.dds.tpimpactoambiental.service;
 
 import com.dds.tpimpactoambiental.dtos.request.RequestAceptarSolicitud;
+import com.dds.tpimpactoambiental.dtos.request.RequestCrearOrganizacion;
 import com.dds.tpimpactoambiental.dtos.response.ResponseAceptarSolicitud;
+import com.dds.tpimpactoambiental.dtos.response.ResponseCrearOrganizacion;
 import com.dds.tpimpactoambiental.model.*;
 import com.dds.tpimpactoambiental.repository.LocalidadRepository;
 import com.dds.tpimpactoambiental.repository.OrganizationRepository;
@@ -26,6 +28,13 @@ public class OrganizacionService {
     private LocalidadRepository localidadRepository;
 
     public OrganizacionService() {
+    }
+    public ResponseEntity<Object> crearOrganizacion(RequestCrearOrganizacion request){
+        ResponseCrearOrganizacion response = new ResponseCrearOrganizacion();
+        Organizacion organizacion = new Organizacion(request.getRazonSocial(), request.getTipoOrganizacion().getText(),request.getClasificacion().getText());
+        organizationRepository.save(organizacion);
+        response.setMessage("Creacion existosa");
+        return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
 
     @Transactional

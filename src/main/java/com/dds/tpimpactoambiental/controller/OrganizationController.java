@@ -1,6 +1,7 @@
 package com.dds.tpimpactoambiental.controller;
 
 import com.dds.tpimpactoambiental.dtos.request.RequestAceptarSolicitud;
+import com.dds.tpimpactoambiental.dtos.request.RequestCrearOrganizacion;
 import com.dds.tpimpactoambiental.service.ExcelHelper;
 import com.dds.tpimpactoambiental.service.ExcelService;
 import com.dds.tpimpactoambiental.service.OrganizacionService;
@@ -35,6 +36,11 @@ public class OrganizationController {
         }
         message = "Please upload an excel file!";
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(message);
+    }
+
+    @PostMapping(path = "/crear-organizacion")
+    public ResponseEntity<Object> crearOrganizacion(@RequestBody RequestCrearOrganizacion request){
+        return organizacionService.crearOrganizacion(request);
     }
     @PostMapping(path = "/aceptar-solicitud")
     public ResponseEntity<Object> aceptarSolicitud(@RequestBody RequestAceptarSolicitud request){
