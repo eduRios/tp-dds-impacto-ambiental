@@ -39,6 +39,26 @@
 ```
 
 ## Organizaciones y Miembros
+### crear organizacion
+* **_descripcion_:** crea una organizacion.
+
+
+* **_URL_:** http://localhost:8080/organization/crear-organizacion (POST)
+
+
+* **_Request_:**
+```json
+{
+   "razonSocial" : "coders",
+   "tipoOrganizacion" : {
+      "text" : "EMPRESA"
+   },
+   "clasificacion" : {
+      "text" : "Sofware factory"
+   }
+}
+```
+
 ### registrar Miembro
 * **_descripcion_:** Registra el miembro a una organizacion.
 
