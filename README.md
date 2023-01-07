@@ -40,7 +40,7 @@
 
 ## Organizaciones y Miembros
 ### registrar Miembro
-* **_descripcion_:** Registra los datos personales de un miembro.
+* **_descripcion_:** Registra el miembro a una organizacion.
 
 
 * **_URL_:** http://localhost:8080/member/registrar (POST)
@@ -52,22 +52,22 @@
     "nombre" : "Cornelio",
     "apellido" : "Del Rancho",
     "tipoDocumento" : "DNI",
-    "nroDocumento" : "12345678"
+    "nroDocumento" : "12345678",
+    "idOrganizacion" : 1,
+    "idSector": 1
 }
 ```
-### registrar Organizacion
-* **_descripcion_:** El miembro registra la organizacion en la cual solicita.
+### Aceptar solicitud a una Organizacion
+* **_descripcion_:** Acepta la solicitud de vinculacion de un miembro a una organizacion.
 
 
-* **_URL_:** http://localhost:8080/member/registro_org/{miembroId} (POST)
+* **_URL_:** http://localhost:8080/organization/aceptar-solicitud (POST)
 
 
 * **_Request_:**
 ```json
 {
-   "razonSocial" : "the coders",
-   "tipo" : "Empresa",
-   "clasificacion" : "Software factory"
+   "idSolicitud" : 1
 }
 ```
 ### En Desarrollo (proximamente)

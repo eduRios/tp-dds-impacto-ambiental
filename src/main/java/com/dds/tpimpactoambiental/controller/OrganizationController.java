@@ -1,17 +1,23 @@
 package com.dds.tpimpactoambiental.controller;
 
+import com.dds.tpimpactoambiental.dtos.request.RequestAceptarSolicitud;
 import com.dds.tpimpactoambiental.service.ExcelHelper;
 import com.dds.tpimpactoambiental.service.ExcelService;
+import com.dds.tpimpactoambiental.service.OrganizacionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.time.LocalDate;
+
 @RestController
 @RequestMapping("/organization")
 public class OrganizationController {
 
+    @Autowired
+    OrganizacionService organizacionService;
     @Autowired
     ExcelService fileService;
     @PostMapping(path = "/upload/{idOrg}")
@@ -29,5 +35,9 @@ public class OrganizationController {
         }
         message = "Please upload an excel file!";
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(message);
+    }
+    @PostMapping(path = "/aceptar-solicitud")
+    public ResponseEntity<Object> aceptarSolicitud(@RequestBody RequestAceptarSolicitud request){
+        return organizacionService.aceptarSolicitud(request);
     }
 }
