@@ -58,7 +58,31 @@
    }
 }
 ```
+### crear sector
+* **_descripcion_:** crea un sector de una organizacion existente.
 
+
+* **_URL_:** http://localhost:8080/sector/crear-sector (POST)
+
+
+* **_Request_:**
+```json
+{
+   "nombre" : "coders",
+   "idOrganizacion" : 2,
+   "espacio" : {
+      "nombre" : "ITR",
+      "tipoEspacio" : "HOGAR",
+      "direccion" : {
+         "calle" : "Falsa",
+         "altura" : "123",
+         "localidad" : {
+            "id" : 243
+         }
+      }
+   }
+}
+```
 ### registrar Miembro
 * **_descripcion_:** Registra el miembro a una organizacion.
 

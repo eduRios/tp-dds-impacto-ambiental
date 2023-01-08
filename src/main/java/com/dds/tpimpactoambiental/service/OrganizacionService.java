@@ -34,6 +34,7 @@ public class OrganizacionService {
         Organizacion organizacion = new Organizacion(request.getRazonSocial(), request.getTipoOrganizacion().getText(),request.getClasificacion().getText());
         organizationRepository.save(organizacion);
         response.setMessage("Creacion existosa");
+        response.setIdOrganizacion(organizacion.getId());
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
 
