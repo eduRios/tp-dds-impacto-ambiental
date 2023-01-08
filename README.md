@@ -8,35 +8,6 @@
    - username: sa
    - password:
 5. [Diagrama de clases](https://app.diagrams.net/#G1KjyXDbRwMmgGRpaYPL_D5X6c7KRqHixG)
-## Registro para el administrador
-### registrar
-* **_descripcion_:** Registra al usuario en base a las validaciones [de aqui](https://pages.nist.gov/800-63-3/sp800-63b.html#memsecret), caso contrario lanzara una excepcion.
-
-
-* **_URL_:** http://localhost:8080/user/registrar (POST)
-
-
-* **_Request_:**
-```json
-{
-    "username" : "raul77",
-    "password" : "raul923681"
-}
-```
-### iniciarSesion
-* **_descripcion_:** Abre la sesion de un usuario Administrador si es que coinciden el username y password caso contrario lanzara una excepcion.
-
-
-* **_URL_:** http://localhost:8080/user/iniciar (POST)
-
-
-* **_Request_:**
-```json
-{
-    "username" : "bari",
-    "password" : "wowesmivida12"
-}
-```
 
 ## Organizaciones y Miembros
 ### crear organizacion
@@ -49,12 +20,12 @@
 * **_Request_:**
 ```json
 {
-   "razonSocial" : "coders",
+   "razonSocial" : "casita",
    "tipoOrganizacion" : {
-      "text" : "EMPRESA"
+      "text" : "INSTITUCION"
    },
    "clasificacion" : {
-      "text" : "Sofware factory"
+      "text" : "clasificacion TEST"
    }
 }
 ```
@@ -68,10 +39,10 @@
 * **_Request_:**
 ```json
 {
-   "nombre" : "coders",
+   "nombre" : "habitacion",
    "idOrganizacion" : 2,
    "espacio" : {
-      "nombre" : "ITR",
+      "nombre" : "habitacion",
       "tipoEspacio" : "HOGAR",
       "direccion" : {
          "calle" : "Falsa",
@@ -114,6 +85,38 @@
    "idSolicitud" : 1
 }
 ```
+
+## Registro para el administrador
+### registrar
+* **_descripcion_:** Registra al usuario en base a las validaciones [de aqui](https://pages.nist.gov/800-63-3/sp800-63b.html#memsecret), caso contrario lanzara una excepcion.
+
+
+* **_URL_:** http://localhost:8080/user/registrar (POST)
+
+
+* **_Request_:**
+```json
+{
+   "username" : "corne12",
+   "password" : "corne752389",
+   "idMiembro" : 3
+}
+```
+### iniciarSesion
+* **_descripcion_:** Abre la sesion de un usuario Administrador si es que coinciden el username y password caso contrario lanzara una excepcion.
+
+
+* **_URL_:** http://localhost:8080/user/iniciar (POST)
+
+
+* **_Request_:**
+```json
+{
+    "username" : "corne12",
+    "password" : "corne752389"
+}
+```
+
 ### En Desarrollo (proximamente)
 * **_Role de usuario_:** ya esta desarrollado, solo falta hacer la relacion con mienbro mas test.
 * **_Trayectoria_:** ya esta desarrollado el modelado de trayectoria, tramo, y medioTransporte. 

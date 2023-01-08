@@ -29,7 +29,7 @@ public class TpImpactoAmbientalApplication {
 		return (args) -> {
 			Usuario usuario= new Usuario("bari","wowesmivida12");
 			Rol admin = new Rol("ADMIN");
-			Rol user = new Rol("MIEMBRO");
+			Rol user = new Rol("USER");
 			TransportePublico linea101= new TransportePublico("colectivo","101");
 			ServicioContratado uber = new ServicioContratado("uber");
 			Otro bicicleta = new Otro("bicicleta");

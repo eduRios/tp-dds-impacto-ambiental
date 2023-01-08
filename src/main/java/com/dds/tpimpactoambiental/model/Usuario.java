@@ -7,14 +7,6 @@ import java.util.List;
 @Table(name="usuario")
 public class Usuario {
 
-    public Usuario() {
-    }
-
-    public Usuario(String username, String password) {
-        this.username = username;
-        this.password = password;
-    }
-
     @Id
     @GeneratedValue(strategy= GenerationType.IDENTITY)
     private Long id;
@@ -25,6 +17,22 @@ public class Usuario {
     @JoinTable(name="user_roles",joinColumns=@JoinColumn(name="user_id"),inverseJoinColumns=@JoinColumn(name="role_id"))
     List<Rol> roles;
 
+    @OneToOne(mappedBy = "usuario")
+    private Miembro miembro;
+
+    public Usuario() {
+    }
+
+    public Usuario(String username, String password) {
+        this.username = username;
+        this.password = password;
+    }
+
+    public Usuario(String username, String password, List<Rol> roles) {
+        this.username = username;
+        this.password = password;
+        this.roles = roles;
+    }
     public String getUsername() {
         return username;
     }
@@ -47,5 +55,13 @@ public class Usuario {
 
     public void setRoles(List<Rol> roles) {
         this.roles = roles;
+    }
+
+    public Miembro getMiembro() {
+        return miembro;
+    }
+
+    public void setMiembro(Miembro miembro) {
+        this.miembro = miembro;
     }
 }

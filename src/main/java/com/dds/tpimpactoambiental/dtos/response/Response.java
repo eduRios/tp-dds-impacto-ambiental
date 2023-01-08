@@ -19,4 +19,9 @@ public class Response {
     public void setMessage(String message) {
         this.message = message;
     }
+
+    public Response message(String message){
+        this.message = message;
+        return this;
+    }
 }

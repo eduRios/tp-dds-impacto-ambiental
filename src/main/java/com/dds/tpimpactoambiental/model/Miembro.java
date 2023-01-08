@@ -18,6 +18,10 @@ public class Miembro extends BaseEntity{
 
     private LocalDate fechaIngreso;
 
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "usuario", foreignKey = @ForeignKey(name = "FK_Miembros_Usuario"))
+    private Usuario usuario;
+
     @OneToOne(mappedBy = "miembro")
     private Solicitud solicitud;
     @ManyToMany(mappedBy = "miembros")
@@ -72,5 +76,15 @@ public class Miembro extends BaseEntity{
     public void addTramo(Tramo tramo) {
         tramos.add(tramo);
     }
+
+    public Usuario getUsuario() {
+        return usuario;
+    }
+
+    public void setUsuario(Usuario usuario) {
+        this.usuario = usuario;
+        usuario.setMiembro(this);
+    }
+
 
 }

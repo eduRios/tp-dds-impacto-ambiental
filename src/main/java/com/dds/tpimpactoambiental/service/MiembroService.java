@@ -58,6 +58,12 @@ public class MiembroService {
         cosme.setFechaIngreso(LocalDate.now());
         sector.addMiembro(bari);
         bari.setFechaIngreso(LocalDate.now());
+        /*
+        Usuario usuarioEchi = usuarioService.crearUsuario("echisaidman", "echisaidman", true);
+        miembroEchi.setUsuario(usuarioEchi);
+
+        Usuario usuarioMili = usuarioService.crearUsuario("miliramos", "miliramos", true);
+        miembroMili.setUsuario(usuarioMili);*/
         memberRepository.saveAll(Arrays.asList(cosme,bari));
     }
 
