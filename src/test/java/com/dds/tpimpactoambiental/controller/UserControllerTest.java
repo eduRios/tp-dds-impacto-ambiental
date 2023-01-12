@@ -1,5 +1,6 @@
 package com.dds.tpimpactoambiental.controller;
 
+import com.dds.tpimpactoambiental.dtos.request.RequestRegistrarUsuario;
 import com.dds.tpimpactoambiental.model.Usuario;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,13 +17,13 @@ public class UserControllerTest {
 
     @Test
     public void registrarOk(){
-        Usuario user = new Usuario("raul77","raul923681");
+        RequestRegistrarUsuario user = new RequestRegistrarUsuario("raul77","raul923681");
         ResponseEntity<Object> response = userController.registrar(user);
         assertEquals(HttpStatus.CREATED,response.getStatusCode());
     }
     @Test
     public void registrarErrorContraseñaDebil(){
-        Usuario user = new Usuario("raul77","12345678");
+        RequestRegistrarUsuario user = new RequestRegistrarUsuario("raul77","12345678");
         ResponseEntity<Object> response = userController.registrar(user);
         assertEquals(HttpStatus.FORBIDDEN,response.getStatusCode());
         assertEquals("La Password es debil",response.getBody());
@@ -30,7 +31,7 @@ public class UserControllerTest {
 
     @Test
     public void registrarErrorLimiteInsuficiente(){
-        Usuario user = new Usuario("raul77","1234");
+        RequestRegistrarUsuario user = new RequestRegistrarUsuario("raul77","1234");
         ResponseEntity<Object> response = userController.registrar(user);
         assertEquals(HttpStatus.FORBIDDEN,response.getStatusCode());
         assertEquals("limite insuficiente",response.getBody());
@@ -38,7 +39,7 @@ public class UserControllerTest {
 
     @Test
     public void registrarErrorTieneCaracteresRepetidos(){
-        Usuario user = new Usuario("raul77","1234433333");
+        RequestRegistrarUsuario user = new RequestRegistrarUsuario("raul77","1234433333");
         ResponseEntity<Object> response = userController.registrar(user);
         assertEquals(HttpStatus.FORBIDDEN,response.getStatusCode());
         assertEquals("tiene caracteres repetidos",response.getBody());

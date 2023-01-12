@@ -40,8 +40,10 @@ public class TrayectoService {
     @Transactional
     public void crearTrayecto(TrayectoDto trayectoDto) {
 
-        Lugar lugarInicio = lugarRepository.getById(trayectoDto.getLugarInicio().getId());
-        Lugar lugarFin = lugarRepository.getById(trayectoDto.getLugarFin().getId());
+        //AUN FALTA TERMINAR DETERMMINAR SI EL LUGAR SE OBTIENE DE LA ORGANIZACION O SE CREA DEL MMIEMBRO
+        trayectoDto.getLugarInicio().getTipoClass();
+        Lugar lugarInicio = trayectoDto.getLugarInicio().getTipoClass();
+        Lugar lugarFin = trayectoDto.getLugarFin().getTipoClass();
 
         LocalDate fechaInicio = DateTimeUtils.dateWithOnlyYearAndMonth(trayectoDto.getFechaInicio());
         LocalDate fechaFin = DateTimeUtils.dateWithOnlyYearAndMonth(trayectoDto.getFechaFin());

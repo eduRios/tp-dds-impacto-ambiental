@@ -3,24 +3,18 @@ package com.dds.tpimpactoambiental.model;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
 @Table(name="organizacion")
-public class Organizacion {
-
-    @Id
-    @GeneratedValue(strategy= GenerationType.IDENTITY)
-    @GenericGenerator(name = "native", strategy = "native")
-    private Long id;
+public class Organizacion extends BaseEntity{
     private String razonSocial;
     private String tipo;
-    @ElementCollection
-    private List<String> sectores;
     private String clasificacion;
 
-    @OneToMany(mappedBy="organizacion", fetch= FetchType.EAGER)
-    private List<Matricula> matriculas;
+    @OneToMany(mappedBy = "organizacion", cascade = CascadeType.ALL)
+    private List<Sector> sectores = new ArrayList<>();
 
     @OneToMany
     @JoinColumn(name = "organizacion_id")
@@ -28,21 +22,11 @@ public class Organizacion {
     public Organizacion() {
     }
 
-    public Organizacion(String razonSocial, String tipo, List<String> sectores, String clasificacion) {
+    public Organizacion(String razonSocial, String tipo, String clasificacion) {
         this.razonSocial = razonSocial;
         this.tipo = tipo;
-        this.sectores = sectores;
         this.clasificacion = clasificacion;
     }
-
-    public Organizacion(String razonSocial, String tipo, List<String> sectores, String clasificacion, List<Matricula> matriculas) {
-        this.razonSocial = razonSocial;
-        this.tipo = tipo;
-        this.sectores = sectores;
-        this.clasificacion = clasificacion;
-        this.matriculas = matriculas;
-    }
-
     public String getRazonSocial() {
         return razonSocial;
     }
@@ -51,21 +35,20 @@ public class Organizacion {
         return tipo;
     }
 
-    public List<String> getSectores() {
-        return sectores;
-    }
-
     public String getClasificacion() {
         return clasificacion;
     }
 
-    public List<Matricula> getMatriculas() {
-        return matriculas;
+    public void addSector(Sector sector) {
+        sectores.add(sector);
+        sector.setOrganizacion(this);
+    }
+    public List<Sector> getSectores() {
+        return sectores;
     }
 
-    public void addMatricula(Matricula matricula) {
-        matricula.setOrganizacion(this);
-        matriculas.add(matricula);
+    public void setSectores(List<Sector> sectores2) {
+        this.sectores = sectores2;
     }
 
     public List<DatosActividad> getDatosActividadList() {

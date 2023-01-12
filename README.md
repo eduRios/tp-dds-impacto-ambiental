@@ -8,6 +8,84 @@
    - username: sa
    - password:
 5. [Diagrama de clases](https://app.diagrams.net/#G1KjyXDbRwMmgGRpaYPL_D5X6c7KRqHixG)
+
+## Organizaciones y Miembros
+### crear organizacion
+* **_descripcion_:** crea una organizacion.
+
+
+* **_URL_:** http://localhost:8080/organization/crear-organizacion (POST)
+
+
+* **_Request_:**
+```json
+{
+   "razonSocial" : "casita",
+   "tipoOrganizacion" : {
+      "text" : "INSTITUCION"
+   },
+   "clasificacion" : {
+      "text" : "clasificacion TEST"
+   }
+}
+```
+### crear sector
+* **_descripcion_:** crea un sector de una organizacion existente.
+
+
+* **_URL_:** http://localhost:8080/sector/crear-sector (POST)
+
+
+* **_Request_:**
+```json
+{
+   "nombre" : "habitacion",
+   "idOrganizacion" : 2,
+   "espacio" : {
+      "nombre" : "habitacion",
+      "tipoEspacio" : "HOGAR",
+      "direccion" : {
+         "calle" : "Falsa",
+         "altura" : "123",
+         "localidad" : {
+            "id" : 243
+         }
+      }
+   }
+}
+```
+### registrar Miembro
+* **_descripcion_:** Registra el miembro a una organizacion.
+
+
+* **_URL_:** http://localhost:8080/member/registrar (POST)
+
+
+* **_Request_:**
+```json
+{
+    "nombre" : "Cornelio",
+    "apellido" : "Del Rancho",
+    "tipoDocumento" : "DNI",
+    "nroDocumento" : "12345678",
+    "idOrganizacion" : 1,
+    "idSector": 1
+}
+```
+### Aceptar solicitud a una Organizacion
+* **_descripcion_:** Acepta la solicitud de vinculacion de un miembro a una organizacion.
+
+
+* **_URL_:** http://localhost:8080/organization/aceptar-solicitud (POST)
+
+
+* **_Request_:**
+```json
+{
+   "idSolicitud" : 1
+}
+```
+
 ## Registro para el administrador
 ### registrar
 * **_descripcion_:** Registra al usuario en base a las validaciones [de aqui](https://pages.nist.gov/800-63-3/sp800-63b.html#memsecret), caso contrario lanzara una excepcion.
@@ -19,8 +97,9 @@
 * **_Request_:**
 ```json
 {
-    "username" : "raul77",
-    "password" : "raul923681"
+   "username" : "corne12",
+   "password" : "corne752389",
+   "idMiembro" : 3
 }
 ```
 ### iniciarSesion
@@ -33,43 +112,11 @@
 * **_Request_:**
 ```json
 {
-    "username" : "bari",
-    "password" : "wowesmivida12"
+    "username" : "corne12",
+    "password" : "corne752389"
 }
 ```
 
-## Organizaciones y Miembros
-### registrar Miembro
-* **_descripcion_:** Registra los datos personales de un miembro.
-
-
-* **_URL_:** http://localhost:8080/member/registrar (POST)
-
-
-* **_Request_:**
-```json
-{
-    "nombre" : "Cornelio",
-    "apellido" : "Del Rancho",
-    "tipoDocumento" : "DNI",
-    "nroDocumento" : "12345678"
-}
-```
-### registrar Organizacion
-* **_descripcion_:** El miembro registra la organizacion en la cual solicita.
-
-
-* **_URL_:** http://localhost:8080/member/registro_org/{miembroId} (POST)
-
-
-* **_Request_:**
-```json
-{
-   "razonSocial" : "the coders",
-   "tipo" : "Empresa",
-   "clasificacion" : "Software factory"
-}
-```
 ### En Desarrollo (proximamente)
 * **_Role de usuario_:** ya esta desarrollado, solo falta hacer la relacion con mienbro mas test.
 * **_Trayectoria_:** ya esta desarrollado el modelado de trayectoria, tramo, y medioTransporte. 

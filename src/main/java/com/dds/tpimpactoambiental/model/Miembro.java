@@ -3,6 +3,7 @@ package com.dds.tpimpactoambiental.model;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -15,11 +16,20 @@ public class Miembro extends BaseEntity{
     private String tipoDocumento;
     private String nroDocumento;
 
-    @OneToMany(mappedBy="miembro", fetch= FetchType.EAGER)
-    private List<Matricula> matriculas;
+    private LocalDate fechaIngreso;
 
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "usuario", foreignKey = @ForeignKey(name = "FK_Miembros_Usuario"))
+    private Usuario usuario;
+
+    @OneToOne(mappedBy = "miembro")
+    private Solicitud solicitud;
     @ManyToMany(mappedBy = "miembros")
     private List<Tramo> tramos = new ArrayList<>();
+
+    @ManyToOne
+    @JoinColumn(name = "sector", foreignKey = @ForeignKey(name = "FK_Miembros_Sector"))
+    private Sector sector;
 
     public Miembro() {
     }
@@ -47,16 +57,34 @@ public class Miembro extends BaseEntity{
         return nroDocumento;
     }
 
-    public List<Matricula> getMatriculas() {
-        return matriculas;
+    public LocalDate getFechaIngreso() {
+        return fechaIngreso;
     }
-    public void addMatricula(Matricula matricula) {
-        matricula.setMiembro(this);
-        matriculas.add(matricula);
+
+    public void setFechaIngreso(LocalDate fechaIngreso) {
+        this.fechaIngreso = fechaIngreso;
+    }
+
+    public Sector getSector() {
+        return sector;
+    }
+
+    public void setSector(Sector sector) {
+        this.sector = sector;
     }
 
     public void addTramo(Tramo tramo) {
         tramos.add(tramo);
     }
+
+    public Usuario getUsuario() {
+        return usuario;
+    }
+
+    public void setUsuario(Usuario usuario) {
+        this.usuario = usuario;
+        usuario.setMiembro(this);
+    }
+
 
 }

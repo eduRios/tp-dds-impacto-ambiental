@@ -30,6 +30,14 @@ public class LugarDto extends BaseEntityDto {
         return "?";
     }
 
+    public Lugar getTipoClass() {
+        if ("Espacio".equals(this.tipo))
+            return new Espacio();
+        /*if (lugar instanceof Parada)
+            return "Parada";*/
+        return null;
+    }
+
     public DireccionDto getDireccion() {
         return direccion;
     }
