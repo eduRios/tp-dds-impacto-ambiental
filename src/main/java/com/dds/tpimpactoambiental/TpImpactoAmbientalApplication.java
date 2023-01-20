@@ -30,16 +30,16 @@ public class TpImpactoAmbientalApplication {
 			Usuario usuario= new Usuario("bari","wowesmivida12");
 			Rol admin = new Rol("ADMIN");
 			Rol user = new Rol("USER");
-			TransportePublico linea101= new TransportePublico("colectivo","101");
-			ServicioContratado uber = new ServicioContratado("uber");
-			Otro bicicleta = new Otro("bicicleta");
+			//TransportePublico linea101= new TransportePublico("colectivo","101");
+			//ServicioContratado uber = new ServicioContratado("uber");
+			//Otro bicicleta = new Otro("bicicleta");
 
 			userRepository.save(usuario);
 			rolRepository.save(admin);
 			rolRepository.save(user);
-			medioTransporteRepository.save(linea101);
-			medioTransporteRepository.save(uber);
-			medioTransporteRepository.save(bicicleta);
+			//medioTransporteRepository.save(linea101);
+			//medioTransporteRepository.save(uber);
+			//medioTransporteRepository.save(bicicleta);
 
 			geoService.seedData();
 			organizacionService.seedData();

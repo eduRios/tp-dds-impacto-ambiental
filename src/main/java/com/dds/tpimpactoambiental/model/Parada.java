@@ -1,7 +1,7 @@
 package com.dds.tpimpactoambiental.model;
 
 import javax.persistence.*;
-/*
+
 @Entity(name = "Parada")
 @Table(name = "paradas")
 public class Parada extends Lugar {
@@ -22,9 +22,36 @@ public class Parada extends Lugar {
     )
     private Parada paradaSiguiente;
 
+    public Parada() {
+    }
+
     public Parada(Direccion direccion, Cantidad distanciaParadaSiguiente) {
         super(direccion);
         this.distanciaParadaSiguiente = distanciaParadaSiguiente;
+    }
+
+    public TransportePublico getTransportePublico() {
+        return transportePublico;
+    }
+
+    public void setTransportePublico(TransportePublico transportePublico) {
+        this.transportePublico = transportePublico;
+    }
+
+    public Cantidad getDistanciaParadaSiguiente() {
+        return distanciaParadaSiguiente;
+    }
+
+    public void setDistanciaParadaSiguiente(Cantidad distanciaParadaSiguiente) {
+        this.distanciaParadaSiguiente = distanciaParadaSiguiente;
+    }
+
+    public Parada getParadaSiguiente() {
+        return paradaSiguiente;
+    }
+
+    public void setParadaSiguiente(Parada paradaSiguiente) {
+        this.paradaSiguiente = paradaSiguiente;
     }
 
     @Override
@@ -32,4 +59,3 @@ public class Parada extends Lugar {
         return "Parada de " + transportePublico.toString() + " en " + direccion.toString();
     }
 }
-*/

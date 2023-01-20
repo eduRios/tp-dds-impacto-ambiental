@@ -40,10 +40,8 @@ public class TrayectoService {
     @Transactional
     public void crearTrayecto(TrayectoDto trayectoDto) {
 
-        //AUN FALTA TERMINAR DETERMMINAR SI EL LUGAR SE OBTIENE DE LA ORGANIZACION O SE CREA DEL MMIEMBRO
-        trayectoDto.getLugarInicio().getTipoClass();
-        Lugar lugarInicio = trayectoDto.getLugarInicio().getTipoClass();
-        Lugar lugarFin = trayectoDto.getLugarFin().getTipoClass();
+        Lugar lugarInicio = lugarRepository.getById(trayectoDto.getLugarInicio().getId());
+        Lugar lugarFin = lugarRepository.getById(trayectoDto.getLugarFin().getId());
 
         LocalDate fechaInicio = DateTimeUtils.dateWithOnlyYearAndMonth(trayectoDto.getFechaInicio());
         LocalDate fechaFin = DateTimeUtils.dateWithOnlyYearAndMonth(trayectoDto.getFechaFin());
@@ -52,7 +50,7 @@ public class TrayectoService {
 
         List<MiembroPorTrayecto> miembros = trayectoDto.getMiembrosPorTrayecto().stream()
                 .map(miembroPorTrayectoDto -> new MiembroPorTrayecto(
-                        miembroRepository.getById(miembroPorTrayectoDto.getMiembro().getId()),
+                        miembroRepository.findById(miembroPorTrayectoDto.getMiembro().getId()).orElse(null),
                         trayecto,
                         miembroPorTrayectoDto.getPeso()
                 ))
