@@ -8,6 +8,7 @@ import com.dds.tpimpactoambiental.repository.LugarRepository;
 import com.dds.tpimpactoambiental.repository.MedioTransporteRepository;
 import com.dds.tpimpactoambiental.repository.MemberRepository;
 import com.dds.tpimpactoambiental.repository.TrayectoRepository;
+import com.dds.tpimpactoambiental.service.calculodistancias.CalculadoraDistancias;
 import com.dds.tpimpactoambiental.utils.DateTimeUtils;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -25,15 +26,15 @@ public class TrayectoService {
     private final LugarRepository lugarRepository;
     private final MemberRepository miembroRepository;
     private final MedioTransporteRepository medioDeTransporteRepository;
-    //private final CalculadoraDistancias calculadoraDistancias;
+    private final CalculadoraDistancias calculadoraDistancias;
     //private final CalculadoraHC calculadoraHC;
 
-    public TrayectoService(TrayectoRepository repository, TrayectoRepository trayectoRepository, LugarRepository lugarRepository, MemberRepository miembroRepository, MedioTransporteRepository medioDeTransporteRepository) {
+    public TrayectoService(TrayectoRepository repository, TrayectoRepository trayectoRepository, LugarRepository lugarRepository, MemberRepository miembroRepository, MedioTransporteRepository medioDeTransporteRepository, CalculadoraDistancias calculadoraDistancias) {
         this.trayectoRepository = trayectoRepository;
         this.lugarRepository = lugarRepository;
         this.miembroRepository = miembroRepository;
         this.medioDeTransporteRepository = medioDeTransporteRepository;
-        //this.calculadoraDistancias = calculadoraDistancias;
+        this.calculadoraDistancias = calculadoraDistancias;
         //this.calculadoraHC = calculadoraHC;
     }
 
@@ -84,7 +85,7 @@ public class TrayectoService {
 
         Tramo tramo = new Tramo(trayecto, medioDeTransporte, lugarInicio, lugarFin);
         tramo.addMiembros(miembros);
-        //tramo.calcularDistanciaRecorrida(calculadoraDistancias);
+        tramo.calcularDistanciaRecorrida(calculadoraDistancias);
         return tramo;
     }
 /*

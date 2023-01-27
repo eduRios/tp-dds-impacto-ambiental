@@ -2,10 +2,7 @@ package com.dds.tpimpactoambiental.model;
 
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 
-import javax.persistence.Cacheable;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 @Entity(name = "Unidad")
 @Table(name = "unidades")
@@ -20,10 +17,18 @@ public class Unidad extends BaseEntity{
     @Column(name = "es_base")
     private boolean base;
 
+    @ManyToOne
+    @JoinColumn(
+            name = "tipo_unidad",
+            nullable = false,
+            foreignKey = @ForeignKey(name = "FK_Unidades_TipoUnidad")
+    )
+    private TipoUnidad tipoUnidad;
+
     public Unidad() {
     }
 
-    public Unidad(String simbolo, String nombre, double factorDeConversionAUnidadBase, boolean base) {
+    public Unidad(String simbolo, String nombre, boolean base, double factorDeConversionAUnidadBase) {
         this.simbolo = simbolo;
         this.nombre = nombre;
         this.factorDeConversionAUnidadBase = factorDeConversionAUnidadBase;
@@ -64,5 +69,13 @@ public class Unidad extends BaseEntity{
 
     public double getFactorDeConversionDesdeUnidadBase() {
         return 1 / factorDeConversionAUnidadBase;
+    }
+
+    public TipoUnidad getTipoUnidad() {
+        return tipoUnidad;
+    }
+
+    public void setTipoUnidad(TipoUnidad tipoUnidad) {
+        this.tipoUnidad = tipoUnidad;
     }
 }

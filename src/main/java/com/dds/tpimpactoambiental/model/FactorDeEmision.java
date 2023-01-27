@@ -24,6 +24,10 @@ public class FactorDeEmision extends BaseEntity{
     public FactorDeEmision() {
     }
 
+    public FactorDeEmision(Cantidad cantidad) {
+        this.cantidad = cantidad;
+    }
+
     public TipoMedioDeTransporte getTipoMedioDeTransporte() {
         return tipoMedioDeTransporte;
     }

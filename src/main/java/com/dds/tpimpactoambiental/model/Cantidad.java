@@ -30,7 +30,7 @@ public class Cantidad extends BaseEntity {
         return valor;
     }
 
-    /*
+
         public Cantidad toUnidadBase() {
             if (unidad == null || unidad.isBase()) {
                 return this;
@@ -79,7 +79,7 @@ public class Cantidad extends BaseEntity {
             Cantidad resultadoEnUnidadBase = thisEnUnidadBase.add(otherEnUnidadBase);
             return resultadoEnUnidadBase.toUnidad(this.unidad);
         }
-
+/*
         public Cantidad times(Cantidad other, RelacionUnidadesService relacionUnidadesService) {
             Cantidad this_ = this, other_ = other;
             Pair<Unidad, Boolean> resultadoUnidad = relacionUnidadesService.getUnidadResultanteDeProducto(this_.unidad, other_.unidad);
@@ -91,7 +91,7 @@ public class Cantidad extends BaseEntity {
             double nuevoValor = this_.valor * other_.valor;
             return new Cantidad(resultadoUnidad.getValue0(), nuevoValor);
         }
-    */
+*/
     public Cantidad times(double factor) {
         double nuevoValor = this.valor * factor;
         return new Cantidad(this.unidad, nuevoValor);
@@ -115,7 +115,7 @@ public class Cantidad extends BaseEntity {
             );
         }
     }
-/*
+
     private void assertUnidadesSonDelMismoTipo(Unidad unidad1, Unidad unidad2) {
         if (unidad1 == null || unidad2 == null) {
             return;
@@ -128,7 +128,7 @@ public class Cantidad extends BaseEntity {
             );
         }
     }
-*/
+
     private double getValorEquivalenteEnUnidadBase() {
         return unidad.getFactorDeConversionAUnidadBase() * valor;
     }

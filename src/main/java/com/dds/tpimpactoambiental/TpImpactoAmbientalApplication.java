@@ -2,8 +2,7 @@ package com.dds.tpimpactoambiental;
 
 import com.dds.tpimpactoambiental.model.*;
 import com.dds.tpimpactoambiental.repository.*;
-import com.dds.tpimpactoambiental.service.MiembroService;
-import com.dds.tpimpactoambiental.service.OrganizacionService;
+import com.dds.tpimpactoambiental.service.*;
 import com.dds.tpimpactoambiental.service.calculodistancias.apidistancias.GeoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
@@ -25,7 +24,9 @@ public class TpImpactoAmbientalApplication {
 	@Bean
 	public CommandLineRunner initData(UserRepository userRepository, RolRepository rolRepository, MedioTransporteRepository medioTransporteRepository,
 									  TramoRepository tramoRepository, GeoService geoService, OrganizacionService organizacionService,
-									  MiembroService miembroService){
+									  MiembroService miembroService, UnidadService unidadService,
+									  TipoMedioDeTransporteService tipoMedioDeTransporteService,
+									  TransportePublicoService transportePublicoService){
 		return (args) -> {
 			Usuario usuario= new Usuario("bari","wowesmivida12");
 			Rol admin = new Rol("ADMIN");
@@ -42,6 +43,9 @@ public class TpImpactoAmbientalApplication {
 			//medioTransporteRepository.save(bicicleta);
 
 			geoService.seedData();
+			unidadService.seedData();
+			tipoMedioDeTransporteService.seedData();
+			transportePublicoService.seedData();
 			organizacionService.seedData();
 			miembroService.seedData();
 			//tramoRepository.save(tramo);

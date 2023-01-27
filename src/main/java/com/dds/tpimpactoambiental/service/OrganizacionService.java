@@ -55,6 +55,11 @@ public class OrganizacionService {
     @Transactional
     public void seedData() {
 
+        if (organizationRepository.hasData()) {
+            //log.debug("Seed: ya hay Organizaciones creadas");
+            return;
+        }
+
         Organizacion organizacion = new Organizacion("Organizacion TEST", "SA", "Software factory");
         Direccion direccionEspacio = new Direccion("MEDRANO", "951");
         Localidad localidad = localidadRepository.getByNombre("ALMAGRO");
