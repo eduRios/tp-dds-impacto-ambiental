@@ -1,11 +1,15 @@
 package com.dds.tpimpactoambiental.dtos.request;
 
+import com.dds.tpimpactoambiental.dtos.IdTextPair;
+
 public class RequestRegistrarMiembro {
 
     private String nombre;
     private String apellido;
     private String tipoDocumento;
     private String nroDocumento;
+
+    private long idPersona;
     private long idOrganizacion;
     private long idSector;
 
@@ -67,5 +71,13 @@ public class RequestRegistrarMiembro {
 
     public void setIdSector(long idSector) {
         this.idSector = idSector;
+    }
+
+    public long getIdPersona() {
+        return idPersona;
+    }
+
+    public void setIdPersona(long idPersona) {
+        this.idPersona = idPersona;
     }
 }

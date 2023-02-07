@@ -22,33 +22,21 @@ public class TpImpactoAmbientalApplication {
 	}
 
 	@Bean
-	public CommandLineRunner initData(UserRepository userRepository, RolRepository rolRepository, MedioTransporteRepository medioTransporteRepository,
-									  TramoRepository tramoRepository, GeoService geoService, OrganizacionService organizacionService,
-									  MiembroService miembroService, UnidadService unidadService,
-									  TipoMedioDeTransporteService tipoMedioDeTransporteService,
-									  TransportePublicoService transportePublicoService){
+	public CommandLineRunner initData(RolRepository rolRepository, GeoService geoService, OrganizacionService organizacionService,
+									  UnidadService unidadService, TipoMedioDeTransporteService tipoMedioDeTransporteService,
+									  TransportePublicoService transportePublicoService, PersonaService personaService){
 		return (args) -> {
-			Usuario usuario= new Usuario("bari","wowesmivida12");
 			Rol admin = new Rol("ADMIN");
 			Rol user = new Rol("USER");
-			//TransportePublico linea101= new TransportePublico("colectivo","101");
-			//ServicioContratado uber = new ServicioContratado("uber");
-			//Otro bicicleta = new Otro("bicicleta");
-
-			userRepository.save(usuario);
 			rolRepository.save(admin);
 			rolRepository.save(user);
-			//medioTransporteRepository.save(linea101);
-			//medioTransporteRepository.save(uber);
-			//medioTransporteRepository.save(bicicleta);
 
 			geoService.seedData();
 			unidadService.seedData();
 			tipoMedioDeTransporteService.seedData();
 			transportePublicoService.seedData();
 			organizacionService.seedData();
-			miembroService.seedData();
-			//tramoRepository.save(tramo);
+			personaService.seedData();
 		};
 	}
 

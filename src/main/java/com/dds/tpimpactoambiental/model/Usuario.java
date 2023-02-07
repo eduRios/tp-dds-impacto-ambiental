@@ -5,11 +5,8 @@ import java.util.List;
 
 @Entity
 @Table(name="usuario")
-public class Usuario {
+public class Usuario extends BaseEntity{
 
-    @Id
-    @GeneratedValue(strategy= GenerationType.IDENTITY)
-    private Long id;
     String username;
     String password;
 

@@ -1,7 +1,5 @@
 package com.dds.tpimpactoambiental.model;
 
-import org.hibernate.annotations.GenericGenerator;
-
 import javax.persistence.*;
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -11,12 +9,11 @@ import java.util.List;
 @Table(name="miembro")
 public class Miembro extends BaseEntity{
 
-    private String nombre;
-    private String apellido;
-    private String tipoDocumento;
-    private String nroDocumento;
-
     private LocalDate fechaIngreso;
+
+    @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    @JoinColumn(name = "persona", nullable = false, foreignKey = @ForeignKey(name = "FK_Miembros_Persona"))
+    private Persona persona;
 
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "usuario", foreignKey = @ForeignKey(name = "FK_Miembros_Usuario"))
@@ -34,27 +31,8 @@ public class Miembro extends BaseEntity{
     public Miembro() {
     }
 
-    public Miembro(String nombre, String apellido, String tipoDocumento, String nroDocumento) {
-        this.nombre = nombre;
-        this.apellido = apellido;
-        this.tipoDocumento = tipoDocumento;
-        this.nroDocumento = nroDocumento;
-    }
-
-    public String getNombre() {
-        return nombre;
-    }
-
-    public String getApellido() {
-        return apellido;
-    }
-
-    public String getTipoDocumento() {
-        return tipoDocumento;
-    }
-
-    public String getNroDocumento() {
-        return nroDocumento;
+    public Miembro(Persona persona) {
+        this.persona = persona;
     }
 
     public LocalDate getFechaIngreso() {
@@ -79,6 +57,14 @@ public class Miembro extends BaseEntity{
 
     public Usuario getUsuario() {
         return usuario;
+    }
+
+    public Persona getPersona() {
+        return persona;
+    }
+
+    public void setPersona(Persona persona) {
+        this.persona = persona;
     }
 
     public void setUsuario(Usuario usuario) {

@@ -54,6 +54,27 @@
    }
 }
 ```
+
+### registrar Datos personales
+* **_descripcion_:** Registra datos personales del usuario.
+
+
+* **_URL_:** http://localhost:8080/persona/crear-persona (POST)
+
+
+* **_Request_:**
+```json
+{
+   "nombre" : "Cornelio",
+   "apellido" : "Del Rancho",
+   "tipoDocumento" : {
+      "id": 0,
+      "text": "DNI"
+   },
+   "documento" : "12345678"
+}
+```
+
 ### registrar Miembro
 * **_descripcion_:** Registra el miembro a una organizacion.
 
@@ -64,10 +85,7 @@
 * **_Request_:**
 ```json
 {
-    "nombre" : "Cornelio",
-    "apellido" : "Del Rancho",
-    "tipoDocumento" : "DNI",
-    "nroDocumento" : "12345678",
+    "idPersona" : 4,
     "idOrganizacion" : 1,
     "idSector": 1
 }
@@ -99,7 +117,7 @@
 {
    "username" : "corne12",
    "password" : "corne752389",
-   "idMiembro" : 3
+   "idSolicitud" : 1
 }
 ```
 ### iniciarSesion

@@ -37,4 +37,12 @@ public class Response {
         this.message = message;
         return this;
     }
+
+    public HttpStatus getStatus() {
+        return status;
+    }
+
+    public void setStatus(HttpStatus status) {
+        this.status = status;
+    }
 }

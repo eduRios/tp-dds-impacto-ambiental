@@ -6,6 +6,8 @@ public class RequestRegistrarUsuario {
     private String password;
     private long idMiembro;
 
+    private long idSolicitud;
+
     public RequestRegistrarUsuario(String username, String password) {
         this.username = username;
         this.password = password;
@@ -33,5 +35,13 @@ public class RequestRegistrarUsuario {
 
     public void setIdMiembro(long idMiembro) {
         this.idMiembro = idMiembro;
+    }
+
+    public long getIdSolicitud() {
+        return idSolicitud;
+    }
+
+    public void setIdSolicitud(long idSolicitud) {
+        this.idSolicitud = idSolicitud;
     }
 }
