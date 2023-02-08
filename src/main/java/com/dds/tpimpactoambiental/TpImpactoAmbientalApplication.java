@@ -24,7 +24,8 @@ public class TpImpactoAmbientalApplication {
 	@Bean
 	public CommandLineRunner initData(RolRepository rolRepository, GeoService geoService, OrganizacionService organizacionService,
 									  UnidadService unidadService, TipoMedioDeTransporteService tipoMedioDeTransporteService,
-									  TransportePublicoService transportePublicoService, PersonaService personaService){
+									  TransportePublicoService transportePublicoService, PersonaService personaService,
+									  TipoConsumoService tipoConsumoService){
 		return (args) -> {
 			Rol admin = new Rol("ADMIN");
 			Rol user = new Rol("USER");
@@ -35,6 +36,7 @@ public class TpImpactoAmbientalApplication {
 			unidadService.seedData();
 			tipoMedioDeTransporteService.seedData();
 			transportePublicoService.seedData();
+			tipoConsumoService.seedData();
 			organizacionService.seedData();
 			personaService.seedData();
 		};

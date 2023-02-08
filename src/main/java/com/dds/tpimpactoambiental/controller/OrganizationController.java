@@ -46,6 +46,7 @@ public class OrganizationController {
     }
 
 
+
     @GetMapping
     public ResponseEntity<ResponseWithResults<OrganizacionDto>> listarOrganizaciones() {
         return ResponseEntityUtils.toResponseEntity(organizacionService.getAllDtos());

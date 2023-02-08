@@ -1,7 +1,9 @@
 package com.dds.tpimpactoambiental.controller;
 
 import com.dds.tpimpactoambiental.dtos.TrayectoDto;
+import com.dds.tpimpactoambiental.dtos.response.Response;
 import com.dds.tpimpactoambiental.service.TrayectoService;
+import com.dds.tpimpactoambiental.utils.ResponseEntityUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -15,8 +17,8 @@ public class TrayectoController {
     private TrayectoService trayectoService;
 
     @RequestMapping(path = "/registrar", method = RequestMethod.POST)
-    public ResponseEntity<Object> crearTrayecto(@RequestBody TrayectoDto trayectoDto) {
+    public ResponseEntity<Response> crearTrayecto(@RequestBody TrayectoDto trayectoDto) {
         trayectoService.crearTrayecto(trayectoDto);
-        return new ResponseEntity<>("yes", HttpStatus.CREATED);
+        return ResponseEntityUtils.toResponseEntity(new Response(HttpStatus.CREATED,"Trayecto creado"));
     }
 }

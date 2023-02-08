@@ -21,6 +21,13 @@ public class FactorDeEmision extends BaseEntity{
     @JoinColumn(name = "cantidad", nullable = false, foreignKey = @ForeignKey(name = "FK_FactoresDeEmision_Cantidad"))
     private Cantidad cantidad;
 
+    @OneToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    @JoinColumn(
+            name = "tipo_consumo",
+            foreignKey = @ForeignKey(name = "FK_FactoresDeEmision_TipoConsumo")
+    )
+    private TipoConsumo tipoConsumo;
+
     public FactorDeEmision() {
     }
 
@@ -42,5 +49,13 @@ public class FactorDeEmision extends BaseEntity{
 
     public void setCantidad(Cantidad cantidad) {
         this.cantidad = cantidad;
+    }
+
+    public TipoConsumo getTipoConsumo() {
+        return tipoConsumo;
+    }
+
+    public void setTipoConsumo(TipoConsumo tipoConsumo) {
+        this.tipoConsumo = tipoConsumo;
     }
 }
