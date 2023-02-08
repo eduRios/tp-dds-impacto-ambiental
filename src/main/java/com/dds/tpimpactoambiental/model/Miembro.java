@@ -67,6 +67,26 @@ public class Miembro extends BaseEntity{
         this.persona = persona;
     }
 
+    public Organizacion getOrganizacion() {
+        return sector.getOrganizacion();
+    }
+
+    public Solicitud getSolicitud() {
+        return solicitud;
+    }
+
+    public void setSolicitud(Solicitud solicitud) {
+        this.solicitud = solicitud;
+    }
+
+    public List<Tramo> getTramos() {
+        return tramos;
+    }
+
+    public void setTramos(List<Tramo> tramos) {
+        this.tramos = tramos;
+    }
+
     public void setUsuario(Usuario usuario) {
         this.usuario = usuario;
         usuario.setMiembro(this);

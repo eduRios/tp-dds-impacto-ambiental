@@ -4,6 +4,7 @@ import com.dds.tpimpactoambiental.dtos.IdTextPair;
 import com.dds.tpimpactoambiental.dtos.PersonaDto;
 import com.dds.tpimpactoambiental.dtos.ResponseWithResults;
 import com.dds.tpimpactoambiental.dtos.request.RequestCrearPersona;
+import com.dds.tpimpactoambiental.dtos.response.Response;
 import com.dds.tpimpactoambiental.enums.TipoDocumento;
 import com.dds.tpimpactoambiental.model.Miembro;
 import com.dds.tpimpactoambiental.model.Persona;
@@ -34,11 +35,11 @@ public class PersonaService {
 
 
     @Transactional
-    public ResponseEntity<Object> crearPersona(RequestCrearPersona request) {
+    public Response crearPersona(RequestCrearPersona request) {
         TipoDocumento tipoDocumento = TipoDocumento.getFromOrdinal(request.getTipoDocumento().getId());
         Persona persona = new Persona(request.getNombre(), request.getApellido(), tipoDocumento, request.getDocumento());
         personaRepository.save(persona);
-        return new ResponseEntity<>("yes", HttpStatus.CREATED);
+        return new Response( HttpStatus.CREATED,"persona creada");
     }
 
     @Transactional

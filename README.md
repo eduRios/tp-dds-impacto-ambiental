@@ -14,7 +14,7 @@
 * **_descripcion_:** crea una organizacion.
 
 
-* **_URL_:** http://localhost:8080/organization/crear-organizacion (POST)
+* **_URL_:** http://localhost:8080/api/organizacion (POST)
 
 
 * **_Request_:**
@@ -22,18 +22,21 @@
 {
    "razonSocial" : "casita",
    "tipoOrganizacion" : {
-      "text" : "INSTITUCION"
+      "id": 3,
+      "text": "INSTITUCION"
    },
    "clasificacion" : {
-      "text" : "clasificacion TEST"
-   }
+      "id": 1,
+      "text": "UNIVERSIDAD"
+   },
+   "factorK" : {}
 }
 ```
 ### crear sector
 * **_descripcion_:** crea un sector de una organizacion existente.
 
 
-* **_URL_:** http://localhost:8080/sector/crear-sector (POST)
+* **_URL_:** http://localhost:8080/api/sector (POST)
 
 
 * **_Request_:**
@@ -59,7 +62,7 @@
 * **_descripcion_:** Registra datos personales del usuario.
 
 
-* **_URL_:** http://localhost:8080/persona/crear-persona (POST)
+* **_URL_:** http://localhost:8080/api/persona (POST)
 
 
 * **_Request_:**
@@ -79,7 +82,7 @@
 * **_descripcion_:** Registra el miembro a una organizacion.
 
 
-* **_URL_:** http://localhost:8080/member/registrar (POST)
+* **_URL_:** http://localhost:8080/api/miembro (POST)
 
 
 * **_Request_:**
@@ -94,7 +97,7 @@
 * **_descripcion_:** Acepta la solicitud de vinculacion de un miembro a una organizacion.
 
 
-* **_URL_:** http://localhost:8080/organization/aceptar-solicitud (POST)
+* **_URL_:** http://localhost:8080/api/organizacion/aceptar-solicitud (POST)
 
 
 * **_Request_:**
@@ -109,7 +112,7 @@
 * **_descripcion_:** Registra al usuario en base a las validaciones [de aqui](https://pages.nist.gov/800-63-3/sp800-63b.html#memsecret), caso contrario lanzara una excepcion.
 
 
-* **_URL_:** http://localhost:8080/user/registrar (POST)
+* **_URL_:** http://localhost:8080/api/auth/register (POST)
 
 
 * **_Request_:**
@@ -124,7 +127,7 @@
 * **_descripcion_:** Abre la sesion de un usuario Administrador si es que coinciden el username y password caso contrario lanzara una excepcion.
 
 
-* **_URL_:** http://localhost:8080/user/iniciar (POST)
+* **_URL_:** http://localhost:8080/api/auth/login (POST)
 
 
 * **_Request_:**

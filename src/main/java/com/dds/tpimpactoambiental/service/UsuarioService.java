@@ -1,6 +1,8 @@
 package com.dds.tpimpactoambiental.service;
 
 import com.dds.tpimpactoambiental.dtos.request.RequestRegistrarUsuario;
+import com.dds.tpimpactoambiental.dtos.response.LoginResponse;
+import com.dds.tpimpactoambiental.dtos.response.RegistrarUsuarioResponse;
 import com.dds.tpimpactoambiental.dtos.response.Response;
 import com.dds.tpimpactoambiental.exception.PasswordException;
 import com.dds.tpimpactoambiental.model.Miembro;
@@ -35,20 +37,20 @@ public class UsuarioService {
     private int intentos = 0;
 
     @Transactional
-    public ResponseEntity<Object> registrar(@RequestBody RequestRegistrarUsuario request) {
+    public RegistrarUsuarioResponse registrar(@RequestBody RequestRegistrarUsuario request) {
         Response response = new Response();
         if (existeUsuarioConUsername(request.getUsername())) {
-            return new ResponseEntity<>(response.message("Ya existe otro usuario con ese username"), HttpStatus.FORBIDDEN);
+            return new RegistrarUsuarioResponse(HttpStatus.FORBIDDEN,"Ya existe otro usuario con ese username");
         }
         try {
             validatePassword.validar(request.getPassword());
         } catch (PasswordException e) {
-            return new ResponseEntity<>(e.getMessage(), HttpStatus.FORBIDDEN);
+            return new RegistrarUsuarioResponse(HttpStatus.FORBIDDEN, e.getMessage());
         }
 
         Solicitud solicitud = solicitudRepository.getById(request.getIdSolicitud());
         if (solicitud == null) {
-            return new ResponseEntity<>(response.message("No se encontro la solicitud con el ID especificado"), HttpStatus.FORBIDDEN);
+            return new RegistrarUsuarioResponse( HttpStatus.FORBIDDEN,"No se encontro la solicitud con el ID especificado");
         }
 
         Usuario usuario = crearUsuario(request.getUsername(), request.getPassword());
@@ -56,22 +58,23 @@ public class UsuarioService {
         Miembro miembro = solicitud.getMiembro();
         miembro.setUsuario(usuario);
         miembroRepository.save(miembro);
-        return new ResponseEntity<>(response.message("Registro con exito"), HttpStatus.CREATED);
+        return new RegistrarUsuarioResponse(HttpStatus.CREATED,"Registro con exito");
     }
 
-    public ResponseEntity<Object> iniciarSesion(@RequestBody Usuario usuario) {
+    public LoginResponse iniciarSesion(@RequestBody Usuario usuario) {
 
         Usuario user = userRepository.findByUsernameAndPassword(usuario.getUsername(), usuario.getPassword());
         if (intentos == 5) {
             intentos = 0;
-            return new ResponseEntity<>("Has terminado tu limite de 5 intentos", HttpStatus.FORBIDDEN);
+            return new LoginResponse(HttpStatus.FORBIDDEN,"Has terminado tu limite de 5 intentos");
         }
         if (user == null) {
             intentos++;
-            return new ResponseEntity<>("Usuario inexistente", HttpStatus.FORBIDDEN);
+            return new LoginResponse(HttpStatus.FORBIDDEN,"Usuario inexistente");
         }
         intentos = 0;
-        return new ResponseEntity<>(HttpStatus.OK);
+        LoginResponse response = new LoginResponse(HttpStatus.OK, "Guardar el `accessToken` y mandarlo en cada request");
+        return response;
     }
 
     public boolean existeUsuarioConUsername(String username) {

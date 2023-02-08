@@ -8,9 +8,18 @@ public class RequestRegistrarUsuario {
 
     private long idSolicitud;
 
+    public RequestRegistrarUsuario() {
+    }
+
     public RequestRegistrarUsuario(String username, String password) {
         this.username = username;
         this.password = password;
+    }
+
+    public RequestRegistrarUsuario(String username, String password, long idSolicitud) {
+        this.username = username;
+        this.password = password;
+        this.idSolicitud = idSolicitud;
     }
 
     public String getUsername() {

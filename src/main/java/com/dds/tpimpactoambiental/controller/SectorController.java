@@ -10,13 +10,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/sector")
+@RequestMapping("/api/sector")
 public class SectorController {
 
     @Autowired
     private SectorService sectorService;
 
-    @PostMapping("/crear-sector")
+    @PostMapping
     public ResponseEntity<Object> crearSector(@RequestBody RequestCrearSector request) {
         return sectorService.crearSector(request);
     }

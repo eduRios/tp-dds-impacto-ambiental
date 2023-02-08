@@ -1,6 +1,5 @@
 package com.dds.tpimpactoambiental.controller;
 
-import com.dds.tpimpactoambiental.dtos.TrayectDto;
 import com.dds.tpimpactoambiental.dtos.TrayectoDto;
 import com.dds.tpimpactoambiental.service.TrayectoService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,7 +8,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/trayecto")
+@RequestMapping("/api/trayecto")
 public class TrayectoController {
 
     @Autowired

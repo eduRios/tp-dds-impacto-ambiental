@@ -1,10 +1,16 @@
 package com.dds.tpimpactoambiental.controller;
 
+import com.dds.tpimpactoambiental.dtos.IdTextPair;
+import com.dds.tpimpactoambiental.dtos.OrganizacionDto;
+import com.dds.tpimpactoambiental.dtos.ResponseWithResults;
+import com.dds.tpimpactoambiental.dtos.SolicitudDto;
 import com.dds.tpimpactoambiental.dtos.request.RequestAceptarSolicitud;
 import com.dds.tpimpactoambiental.dtos.request.RequestCrearOrganizacion;
+import com.dds.tpimpactoambiental.model.Usuario;
 import com.dds.tpimpactoambiental.service.ExcelHelper;
 import com.dds.tpimpactoambiental.service.ExcelService;
 import com.dds.tpimpactoambiental.service.OrganizacionService;
+import com.dds.tpimpactoambiental.utils.ResponseEntityUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -14,7 +20,8 @@ import org.springframework.web.multipart.MultipartFile;
 import java.time.LocalDate;
 
 @RestController
-@RequestMapping("/organization")
+@CrossOrigin(origins = "http://localhost:4200", maxAge = 3600)
+@RequestMapping("/api/organizacion")
 public class OrganizationController {
 
     @Autowired
@@ -38,7 +45,13 @@ public class OrganizationController {
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(message);
     }
 
-    @PostMapping(path = "/crear-organizacion")
+
+    @GetMapping
+    public ResponseEntity<ResponseWithResults<OrganizacionDto>> listarOrganizaciones() {
+        return ResponseEntityUtils.toResponseEntity(organizacionService.getAllDtos());
+    }
+
+    @PostMapping
     public ResponseEntity<Object> crearOrganizacion(@RequestBody RequestCrearOrganizacion request){
         return organizacionService.crearOrganizacion(request);
     }
@@ -46,4 +59,21 @@ public class OrganizationController {
     public ResponseEntity<Object> aceptarSolicitud(@RequestBody RequestAceptarSolicitud request){
         return organizacionService.aceptarSolicitud(request);
     }
+
+    @GetMapping("/tipos")
+    public ResponseEntity<ResponseWithResults<IdTextPair>> listarTiposDeOrganizacion() {
+        return ResponseEntityUtils.toResponseEntity(organizacionService.listarTiposDeOrganizacion());
+    }
+
+    @GetMapping("/clasificaciones")
+    public ResponseEntity<ResponseWithResults<IdTextPair>> listarClasificaciones() {
+        return ResponseEntityUtils.toResponseEntity(organizacionService.listarClasificaciones());
+    }
+/*
+    @GetMapping("/solicitudes")
+    public ResponseEntity<ResponseWithResults<SolicitudDto>> listarSolicitudes() {
+        Usuario currentUser = currentUserService.get();
+        long idOrganizacion = currentUser.getMiembro().getOrganizacion().getId();
+        return ResponseEntityUtils.toResponseEntity(organizacionService.listarSolicitudes(idOrganizacion));
+    }*/
 }

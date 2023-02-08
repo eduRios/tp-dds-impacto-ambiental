@@ -5,6 +5,7 @@ import com.dds.tpimpactoambiental.dtos.IdTextPair;
 import com.dds.tpimpactoambiental.dtos.PersonaDto;
 import com.dds.tpimpactoambiental.dtos.ResponseWithResults;
 import com.dds.tpimpactoambiental.dtos.request.RequestCrearPersona;
+import com.dds.tpimpactoambiental.dtos.response.Response;
 import com.dds.tpimpactoambiental.service.PersonaService;
 import com.dds.tpimpactoambiental.utils.ResponseEntityUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,7 +13,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/persona")
+@CrossOrigin(origins = "http://localhost:4200", maxAge = 3600)
+@RequestMapping("/api/persona")
 public class PersonaController {
 
     @Autowired
@@ -22,12 +24,12 @@ public class PersonaController {
         this.personaService = personaService;
     }
 
-    @PostMapping("/crear-persona")
-    public ResponseEntity<Object> crearPersona(@RequestBody RequestCrearPersona request) {
-        return personaService.crearPersona(request);
+    @PostMapping
+    public ResponseEntity<Response> crearPersona(@RequestBody RequestCrearPersona request) {
+        return ResponseEntityUtils.toResponseEntity(personaService.crearPersona(request));
     }
 
-    @GetMapping("/listar-personas")
+    @GetMapping
     public ResponseEntity<ResponseWithResults<PersonaDto>> listarPersonas() {
         return ResponseEntityUtils.toResponseEntity(personaService.listarPersonas());
     }

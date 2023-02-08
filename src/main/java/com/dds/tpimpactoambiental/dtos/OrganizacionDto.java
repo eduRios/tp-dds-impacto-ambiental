@@ -1,16 +1,15 @@
-package com.dds.tpimpactoambiental.dtos.request;
+package com.dds.tpimpactoambiental.dtos;
 
-import com.dds.tpimpactoambiental.dtos.BaseEntityDto;
-import com.dds.tpimpactoambiental.dtos.CantidadDto;
-import com.dds.tpimpactoambiental.dtos.ContactoDto;
-import com.dds.tpimpactoambiental.dtos.IdTextPair;
+import com.dds.tpimpactoambiental.enums.EnumUtils;
+import com.dds.tpimpactoambiental.model.Organizacion;
+import com.dds.tpimpactoambiental.utils.ListUtils;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class RequestCrearOrganizacion extends BaseEntityDto {
 
+public class OrganizacionDto extends BaseEntityDto {
     private String razonSocial;
     private IdTextPair tipoOrganizacion;
     private IdTextPair clasificacion;
@@ -20,21 +19,26 @@ public class RequestCrearOrganizacion extends BaseEntityDto {
     private List<ContactoDto> contactos = new ArrayList<>();
     private List<IdTextPair> solicitudes = new ArrayList<>();
 
-    public RequestCrearOrganizacion() {
+    public OrganizacionDto() {
     }
-/*
+
+
+    private OrganizacionDto(Organizacion organizacion) {
+        super(organizacion);
+    }
+
     public static OrganizacionDto from(Organizacion organizacion) {
         OrganizacionDto dto = new OrganizacionDto(organizacion);
         dto.setRazonSocial(organizacion.getRazonSocial());
-        dto.setTipoOrganizacion(EnumUtils.enumToIdTextPair(organizacion.getTipoOrganizacion()));
-        dto.setClasificacion(EnumUtils.enumToIdTextPair(organizacion.getClasificacion()));
+        //dto.setTipoOrganizacion(EnumUtils.enumToIdTextPair(organizacion.getTipoOrganizacion()));
+        //dto.setClasificacion(EnumUtils.enumToIdTextPair(organizacion.getClasificacion()));
         dto.setFactorK(CantidadDto.from(organizacion.getFactorK()));
         dto.setCantDiasHabilesPorSemana(organizacion.getCantDiasHabilesPorSemana());
         dto.setSectores(ListUtils.toIdTextPairList(organizacion.getSectores()));
-        dto.setSolicitudes(ListUtils.toIdTextPairList(organizacion.getSolicitudes()));
-        dto.setContactos(organizacion.getContactos().stream().map(ContactoDto::from).collect(Collectors.toList()));
+        //dto.setSolicitudes(ListUtils.toIdTextPairList(organizacion.getSolicitudes()));
+        //dto.setContactos(organizacion.getContactos().stream().map(ContactoDto::from).collect(Collectors.toList()));
         return dto;
-    }*/
+    }
 
     public String getRazonSocial() {
         return razonSocial;
