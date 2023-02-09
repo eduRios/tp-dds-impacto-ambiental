@@ -89,4 +89,9 @@ public class Sector extends BaseEntity{
     public void setSolicitudes(List<Solicitud> solicitudes) {
         this.solicitudes = solicitudes;
     }
+
+    @Override
+    public String toString() {
+        return nombre + " (Org: " + organizacion.toString() + ")";
+    }
 }

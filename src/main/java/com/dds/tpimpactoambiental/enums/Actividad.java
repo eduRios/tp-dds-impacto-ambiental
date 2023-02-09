@@ -1,5 +1,6 @@
 package com.dds.tpimpactoambiental.enums;
 
+import java.text.Normalizer;
 import java.util.stream.Stream;
 
 public enum Actividad {
@@ -16,7 +17,7 @@ public enum Actividad {
 
     public static Actividad from(String nombre) {
         return Stream.of(Actividad.values())
-                .filter(actividad -> actividad.nombre.equals(nombre))
+                .filter(actividad -> Normalizer.normalize(actividad.nombre, Normalizer.Form.NFD).replaceAll("[^\\p{ASCII}]", "").equals(nombre))
                 .findAny()
                 .orElseThrow(() -> new IllegalArgumentException("No se reconoce la actividad: " + nombre));
     }

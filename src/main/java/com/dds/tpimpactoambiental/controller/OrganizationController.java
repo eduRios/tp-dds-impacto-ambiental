@@ -5,7 +5,9 @@ import com.dds.tpimpactoambiental.dtos.OrganizacionDto;
 import com.dds.tpimpactoambiental.dtos.ResponseWithResults;
 import com.dds.tpimpactoambiental.dtos.SolicitudDto;
 import com.dds.tpimpactoambiental.dtos.request.RequestAceptarSolicitud;
+import com.dds.tpimpactoambiental.dtos.request.RequestCargarMediciones;
 import com.dds.tpimpactoambiental.dtos.request.RequestCrearOrganizacion;
+import com.dds.tpimpactoambiental.dtos.response.Response;
 import com.dds.tpimpactoambiental.model.Usuario;
 import com.dds.tpimpactoambiental.service.ExcelHelper;
 import com.dds.tpimpactoambiental.service.ExcelService;
@@ -17,6 +19,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.time.LocalDate;
 
 @RestController
@@ -69,6 +72,12 @@ public class OrganizationController {
     @GetMapping("/clasificaciones")
     public ResponseEntity<ResponseWithResults<IdTextPair>> listarClasificaciones() {
         return ResponseEntityUtils.toResponseEntity(organizacionService.listarClasificaciones());
+    }
+
+    @PostMapping("/cargar-mediciones")
+    public ResponseEntity<Response> cargarMediciones(RequestCargarMediciones request) throws IOException {
+        organizacionService.cargarMediciones(request);
+        return ResponseEntityUtils.toResponseEntity(new Response(HttpStatus.OK));
     }
 /*
     @GetMapping("/solicitudes")

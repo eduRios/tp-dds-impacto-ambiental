@@ -30,8 +30,8 @@ public class OrganizacionDto extends BaseEntityDto {
     public static OrganizacionDto from(Organizacion organizacion) {
         OrganizacionDto dto = new OrganizacionDto(organizacion);
         dto.setRazonSocial(organizacion.getRazonSocial());
-        //dto.setTipoOrganizacion(EnumUtils.enumToIdTextPair(organizacion.getTipoOrganizacion()));
-        //dto.setClasificacion(EnumUtils.enumToIdTextPair(organizacion.getClasificacion()));
+        dto.setTipoOrganizacion(EnumUtils.enumToIdTextPair(organizacion.getTipoOrganizacion()));
+        dto.setClasificacion(EnumUtils.enumToIdTextPair(organizacion.getClasificacion()));
         dto.setFactorK(CantidadDto.from(organizacion.getFactorK()));
         dto.setCantDiasHabilesPorSemana(organizacion.getCantDiasHabilesPorSemana());
         dto.setSectores(ListUtils.toIdTextPairList(organizacion.getSectores()));

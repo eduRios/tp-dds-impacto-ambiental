@@ -1,5 +1,8 @@
 package com.dds.tpimpactoambiental.service;
 
+import com.dds.tpimpactoambiental.dtos.IdTextPair;
+import com.dds.tpimpactoambiental.dtos.ResponseWithResults;
+import com.dds.tpimpactoambiental.dtos.SectorDto;
 import com.dds.tpimpactoambiental.dtos.request.RequestCrearSector;
 import com.dds.tpimpactoambiental.dtos.response.ResponseCrearSector;
 import com.dds.tpimpactoambiental.model.*;
@@ -12,6 +15,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class SectorService {
@@ -51,5 +57,21 @@ public class SectorService {
         response.setMessage("Sector creado!");
         response.setIdSector(nuevoSector.getId());
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
+    }
+
+    @Transactional
+    public ResponseWithResults<SectorDto> listarSectores() {
+        List<SectorDto> sectoresDtos = sectorRepository.findAll().stream()
+                .map(SectorDto::from)
+                .collect(Collectors.toList());
+        return new ResponseWithResults<>(HttpStatus.OK, sectoresDtos);
+    }
+
+    @Transactional
+    public ResponseWithResults<IdTextPair> listarSectoresIdTextPair() {
+        List<IdTextPair> idTextPairs = sectorRepository.findAll().stream()
+                .map(IdTextPair::new)
+                .collect(Collectors.toList());
+        return new ResponseWithResults<>(HttpStatus.OK, idTextPairs);
     }
 }

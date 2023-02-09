@@ -61,4 +61,9 @@ public class Usuario extends BaseEntity{
     public void setMiembro(Miembro miembro) {
         this.miembro = miembro;
     }
+
+    @Override
+    public String toString() {
+        return username;
+    }
 }

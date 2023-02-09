@@ -1,5 +1,7 @@
 package com.dds.tpimpactoambiental.model;
 
+import com.dds.tpimpactoambiental.enums.Clasificacion;
+import com.dds.tpimpactoambiental.enums.TipoOrganizacion;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
@@ -11,8 +13,8 @@ import java.util.stream.Collectors;
 @Table(name="organizacion")
 public class Organizacion extends BaseEntity{
     private String razonSocial;
-    private String tipo;
-    private String clasificacion;
+    private TipoOrganizacion tipoOrganizacion;
+    private Clasificacion clasificacion;
 
     private int cantDiasHabilesPorSemana;
 
@@ -26,25 +28,23 @@ public class Organizacion extends BaseEntity{
     @OneToMany
     @JoinColumn(name = "organizacion_id")
     private List<DatosActividad> datosActividadList;
+
+    @OneToMany(mappedBy = "organizacion", cascade = CascadeType.ALL)
+    private List<Medicion> mediciones = new ArrayList<>();
     public Organizacion() {
     }
 
-    public Organizacion(String razonSocial, String tipo, String clasificacion) {
+    public Organizacion(String razonSocial, TipoOrganizacion tipoOrganizacion, Clasificacion clasificacion,
+                        Cantidad factorK, int cantDiasHabilesPorSemana) {
         this.razonSocial = razonSocial;
-        this.tipo = tipo;
+        this.tipoOrganizacion = tipoOrganizacion;
         this.clasificacion = clasificacion;
+        this.factorK = factorK;
+        this.cantDiasHabilesPorSemana = cantDiasHabilesPorSemana;
     }
 
     public String getRazonSocial() {
         return razonSocial;
-    }
-
-    public String getTipo() {
-        return tipo;
-    }
-
-    public String getClasificacion() {
-        return clasificacion;
     }
 
     public void addSector(Sector sector) {
@@ -67,14 +67,6 @@ public class Organizacion extends BaseEntity{
         this.razonSocial = razonSocial;
     }
 
-    public void setTipo(String tipo) {
-        this.tipo = tipo;
-    }
-
-    public void setClasificacion(String clasificacion) {
-        this.clasificacion = clasificacion;
-    }
-
     public int getCantDiasHabilesPorSemana() {
         return cantDiasHabilesPorSemana;
     }
@@ -95,10 +87,48 @@ public class Organizacion extends BaseEntity{
         this.datosActividadList = datosActividadList;
     }
 
+    public List<Medicion> getMediciones() {
+        return mediciones;
+    }
+
+    public void setMediciones(List<Medicion> mediciones) {
+        this.mediciones = mediciones;
+    }
+
+    public TipoOrganizacion getTipoOrganizacion() {
+        return tipoOrganizacion;
+    }
+
+    public void setTipoOrganizacion(TipoOrganizacion tipoOrganizacion) {
+        this.tipoOrganizacion = tipoOrganizacion;
+    }
+
+    public Clasificacion getClasificacion() {
+        return clasificacion;
+    }
+
+    public void setClasificacion(Clasificacion clasificacion) {
+        this.clasificacion = clasificacion;
+    }
+
+    public void addMediciones(List<Medicion> mediciones) {
+        mediciones.forEach(this::addMedicion);
+    }
+
+    public void addMedicion(Medicion medicion) {
+        mediciones.add(medicion);
+        medicion.setOrganizacion(this);
+    }
+
     public List<Miembro> getMiembros() { // Para saber los miembros que tiene una organizacion de cada sector que tiene
         return sectores.stream()
                 .flatMap(s -> s.getMiembros().stream())
                 .distinct()
                 .collect(Collectors.toList());
+    }
+
+    @Override
+    public String toString() {
+        return razonSocial;
     }
 }
