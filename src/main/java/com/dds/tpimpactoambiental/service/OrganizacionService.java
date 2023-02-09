@@ -60,6 +60,19 @@ public class OrganizacionService {
                 : null;
         Cantidad factorK = new Cantidad(unidadFactorK, request.getFactorK().getValor());
         organizacion.setFactorK(factorK);
+        // Si un Contacto esta guardado en la BD y no esta en el DTO, es que se elimino
+        organizacion.getContactos().removeIf(contacto -> request.getContactos().stream().noneMatch(contactoDto -> contacto.getId() == contactoDto.getId()));
+
+        for (ContactoDto contactoDto : request.getContactos()) {
+            if (contactoDto.getId() != 0) {
+                Contacto contacto = organizacion.getContactos().stream().filter(c -> c.getId() == contactoDto.getId()).findFirst().get();
+                updateContactoFromDto(contacto, contactoDto);
+            } else {
+                Contacto contacto = new Contacto();
+                updateContactoFromDto(contacto, contactoDto);
+                organizacion.addContacto(contacto);
+            }
+        }
         organizationRepository.save(organizacion);
         response.setMessage("Creacion existosa");
         response.setIdOrganizacion(organizacion.getId());
@@ -176,6 +189,15 @@ public class OrganizacionService {
             Sector sector = new Sector("Sector TEST", organizacion, espacio);
         organizacion.addSector(sector);
         organizationRepository.saveAll(Arrays.asList(organizacion));
+    }
+
+    public void updateContactoFromDto(Contacto contacto, ContactoDto dto) {
+        contacto.setNombre(dto.getNombre());
+        contacto.setApellido(dto.getApellido());
+        contacto.setEmail(dto.getEmail());
+        contacto.setTelefono(dto.getTelefono());
+        contacto.setDeseaRecibirPorWhatsapp(dto.getDeseaRecibirPorWhatsapp());
+        contacto.setDeseaRecibirPorMail(dto.getDeseaRecibirPorMail());
     }
 
 }

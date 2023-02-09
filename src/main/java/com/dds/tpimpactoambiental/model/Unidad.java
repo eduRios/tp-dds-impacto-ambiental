@@ -8,7 +8,7 @@ import javax.persistence.*;
 @Table(name = "unidades")
 @Cacheable
 @org.hibernate.annotations.Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
-public class Unidad extends BaseEntity{
+public class Unidad extends BaseEntity {
 
     private String simbolo;
     private String nombre;
@@ -78,4 +78,10 @@ public class Unidad extends BaseEntity{
     public void setTipoUnidad(TipoUnidad tipoUnidad) {
         this.tipoUnidad = tipoUnidad;
     }
+
+    @Override
+    public String toString() {
+        return simbolo;
+    }
+
 }

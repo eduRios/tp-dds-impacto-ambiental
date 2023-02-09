@@ -80,6 +80,11 @@ public class OrganizationController {
         return ResponseEntityUtils.toResponseEntity(new Response(HttpStatus.OK));
     }
 /*
+    @GetMapping("/{id}")
+    public ResponseEntity<ResponseWithSingleResult<OrganizacionDto>> getOrganizacion(@PathVariable long id) {
+        return ResponseEntityUtils.toResponseEntity(organizacionService.getDtoById(id));
+    }*/
+/*
     @GetMapping("/solicitudes")
     public ResponseEntity<ResponseWithResults<SolicitudDto>> listarSolicitudes() {
         Usuario currentUser = currentUserService.get();

@@ -5,6 +5,7 @@ import com.dds.tpimpactoambiental.enums.TipoOrganizacion;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -19,7 +20,7 @@ public class Organizacion extends BaseEntity{
     private int cantDiasHabilesPorSemana;
 
     @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "factor_k", nullable = true, foreignKey = @ForeignKey(name = "FK_Organizaciones_FactorK"))
+    @JoinColumn(name = "factor_k", nullable = false, foreignKey = @ForeignKey(name = "FK_Organizaciones_FactorK"))
     private Cantidad factorK;
 
     @OneToMany(mappedBy = "organizacion", cascade = CascadeType.ALL)
@@ -31,6 +32,10 @@ public class Organizacion extends BaseEntity{
 
     @OneToMany(mappedBy = "organizacion", cascade = CascadeType.ALL)
     private List<Medicion> mediciones = new ArrayList<>();
+
+    @OneToMany(mappedBy = "organizacion", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Contacto> contactos = new ArrayList<>();
+
     public Organizacion() {
     }
 
@@ -111,6 +116,14 @@ public class Organizacion extends BaseEntity{
         this.clasificacion = clasificacion;
     }
 
+    public List<Contacto> getContactos() {
+        return contactos;
+    }
+
+    public void setContactos(List<Contacto> contactos) {
+        this.contactos = contactos;
+    }
+
     public void addMediciones(List<Medicion> mediciones) {
         mediciones.forEach(this::addMedicion);
     }
@@ -123,6 +136,24 @@ public class Organizacion extends BaseEntity{
     public List<Miembro> getMiembros() { // Para saber los miembros que tiene una organizacion de cada sector que tiene
         return sectores.stream()
                 .flatMap(s -> s.getMiembros().stream())
+                .distinct()
+                .collect(Collectors.toList());
+    }
+
+    public void addContacto(Contacto contacto) {
+        contactos.add(contacto);
+        contacto.setOrganizacion(this);
+    }
+
+    public List<Solicitud> getSolicitudes() {
+        return sectores.stream()
+                .flatMap(sector -> sector.getSolicitudes().stream())
+                .collect(Collectors.toList());
+    }
+
+    public List<Trayecto> getTrayectosRealizadosPorMiembrosEnFecha(LocalDate date) {
+        return getMiembros().stream()
+                .flatMap(miembro -> miembro.getTrayectosRealizadosEnFecha(date).stream())
                 .distinct()
                 .collect(Collectors.toList());
     }

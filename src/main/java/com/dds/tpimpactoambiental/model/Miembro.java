@@ -4,6 +4,7 @@ import javax.persistence.*;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Entity
 @Table(name="miembro")
@@ -92,5 +93,19 @@ public class Miembro extends BaseEntity{
         usuario.setMiembro(this);
     }
 
+    public List<Trayecto> getTrayectosRealizadosEnFecha(LocalDate date) {
+        return tramos.stream()
+                .map(Tramo::getTrayecto)
+                .filter(trayecto -> trayecto.seRealizaEnFecha(date))
+                .distinct()
+                .collect(Collectors.toList());
+    }
+/*
+    public Cantidad getHCDeTrayecto(Trayecto trayecto) {
+        return registrosCalculoHCTrayectos.stream()
+                .filter(registro -> registro.getTrayecto().equals(trayecto))
+                .findFirst().map(RegistroCalculoHCTrayecto::getValor)
+                .orElseThrow(() -> new IllegalArgumentException("El Miembro no tiene ningun registro de HC para el Trayecto especificado"));
+    }*/
 
 }
