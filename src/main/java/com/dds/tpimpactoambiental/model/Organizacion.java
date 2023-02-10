@@ -36,6 +36,9 @@ public class Organizacion extends BaseEntity{
     @OneToMany(mappedBy = "organizacion", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Contacto> contactos = new ArrayList<>();
 
+    @OneToMany(mappedBy = "organizacion", cascade = CascadeType.ALL)
+    private List<RegistroCalculoHCDatoActividad> registrosCalculoHCDatoActividad = new ArrayList<>();
+
     public Organizacion() {
     }
 
@@ -50,11 +53,6 @@ public class Organizacion extends BaseEntity{
 
     public String getRazonSocial() {
         return razonSocial;
-    }
-
-    public void addSector(Sector sector) {
-        sectores.add(sector);
-        sector.setOrganizacion(this);
     }
     public List<Sector> getSectores() {
         return sectores;
@@ -124,13 +122,22 @@ public class Organizacion extends BaseEntity{
         this.contactos = contactos;
     }
 
-    public void addMediciones(List<Medicion> mediciones) {
-        mediciones.forEach(this::addMedicion);
+    public List<RegistroCalculoHCDatoActividad> getRegistrosCalculoHCDatoActividad() {
+        return registrosCalculoHCDatoActividad;
     }
 
-    public void addMedicion(Medicion medicion) {
-        mediciones.add(medicion);
-        medicion.setOrganizacion(this);
+    public void setRegistrosCalculoHCDatoActividad(List<RegistroCalculoHCDatoActividad> registrosCalculoHCDatoActividad) {
+        this.registrosCalculoHCDatoActividad = registrosCalculoHCDatoActividad;
+    }
+
+    public void addSector(Sector sector) {
+        sectores.add(sector);
+        sector.setOrganizacion(this);
+    }
+
+    public void addContacto(Contacto contacto) {
+        contactos.add(contacto);
+        contacto.setOrganizacion(this);
     }
 
     public List<Miembro> getMiembros() { // Para saber los miembros que tiene una organizacion de cada sector que tiene
@@ -140,9 +147,11 @@ public class Organizacion extends BaseEntity{
                 .collect(Collectors.toList());
     }
 
-    public void addContacto(Contacto contacto) {
-        contactos.add(contacto);
-        contacto.setOrganizacion(this);
+    public List<Trayecto> getTrayectosRealizadosPorMiembrosEnFecha(LocalDate date) {
+        return getMiembros().stream()
+                .flatMap(miembro -> miembro.getTrayectosRealizadosEnFecha(date).stream())
+                .distinct()
+                .collect(Collectors.toList());
     }
 
     public List<Solicitud> getSolicitudes() {
@@ -151,9 +160,23 @@ public class Organizacion extends BaseEntity{
                 .collect(Collectors.toList());
     }
 
-    public List<Trayecto> getTrayectosRealizadosPorMiembrosEnFecha(LocalDate date) {
+    public void addMediciones(List<Medicion> mediciones) {
+        mediciones.forEach(this::addMedicion);
+    }
+
+    public void addMedicion(Medicion medicion) {
+        mediciones.add(medicion);
+        medicion.setOrganizacion(this);
+    }
+
+    public void addRegistroCalculoHC(RegistroCalculoHCDatoActividad registroCalculoHC) {
+        registroCalculoHC.setOrganizacion(this);
+        registrosCalculoHCDatoActividad.add(registroCalculoHC);
+    }
+
+    public List<Tramo> getTramosDeMiembros() {
         return getMiembros().stream()
-                .flatMap(miembro -> miembro.getTrayectosRealizadosEnFecha(date).stream())
+                .flatMap(m -> m.getTramos().stream())
                 .distinct()
                 .collect(Collectors.toList());
     }

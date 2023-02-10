@@ -1,9 +1,6 @@
 package com.dds.tpimpactoambiental.controller;
 
-import com.dds.tpimpactoambiental.dtos.IdTextPair;
-import com.dds.tpimpactoambiental.dtos.OrganizacionDto;
-import com.dds.tpimpactoambiental.dtos.ResponseWithResults;
-import com.dds.tpimpactoambiental.dtos.SolicitudDto;
+import com.dds.tpimpactoambiental.dtos.*;
 import com.dds.tpimpactoambiental.dtos.request.RequestAceptarSolicitud;
 import com.dds.tpimpactoambiental.dtos.request.RequestCargarMediciones;
 import com.dds.tpimpactoambiental.dtos.request.RequestCrearOrganizacion;
@@ -56,8 +53,18 @@ public class OrganizationController {
     }
 
     @PostMapping
-    public ResponseEntity<Object> crearOrganizacion(@RequestBody RequestCrearOrganizacion request){
+    public ResponseEntity<Object> crearOrganizacion(@RequestBody OrganizacionDto request){
         return organizacionService.crearOrganizacion(request);
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<Response> editarOrganizacion(@PathVariable long id, @RequestBody OrganizacionDto request) {
+        return ResponseEntityUtils.toResponseEntity(organizacionService.editarOrganizacion(id, request));
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Response> deleteOrganizacion(@PathVariable long id) {
+        return ResponseEntityUtils.toResponseEntity(organizacionService.eliminarOrganizacion(id));
     }
     @PostMapping(path = "/aceptar-solicitud")
     public ResponseEntity<Object> aceptarSolicitud(@RequestBody RequestAceptarSolicitud request){
@@ -79,11 +86,11 @@ public class OrganizationController {
         organizacionService.cargarMediciones(request);
         return ResponseEntityUtils.toResponseEntity(new Response(HttpStatus.OK));
     }
-/*
+
     @GetMapping("/{id}")
     public ResponseEntity<ResponseWithSingleResult<OrganizacionDto>> getOrganizacion(@PathVariable long id) {
         return ResponseEntityUtils.toResponseEntity(organizacionService.getDtoById(id));
-    }*/
+    }
 /*
     @GetMapping("/solicitudes")
     public ResponseEntity<ResponseWithResults<SolicitudDto>> listarSolicitudes() {

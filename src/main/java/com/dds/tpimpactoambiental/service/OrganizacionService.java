@@ -4,6 +4,7 @@ import com.dds.tpimpactoambiental.dtos.*;
 import com.dds.tpimpactoambiental.dtos.request.RequestAceptarSolicitud;
 import com.dds.tpimpactoambiental.dtos.request.RequestCargarMediciones;
 import com.dds.tpimpactoambiental.dtos.request.RequestCrearOrganizacion;
+import com.dds.tpimpactoambiental.dtos.response.Response;
 import com.dds.tpimpactoambiental.dtos.response.ResponseAceptarSolicitud;
 import com.dds.tpimpactoambiental.dtos.response.ResponseCrearOrganizacion;
 import com.dds.tpimpactoambiental.enums.Actividad;
@@ -21,8 +22,7 @@ import javax.transaction.Transactional;
 import java.io.IOException;
 import java.io.InputStream;
 import java.time.LocalDate;
-import java.util.Arrays;
-import java.util.List;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
@@ -41,42 +41,49 @@ public class OrganizacionService {
     private TipoMedioDeTransporteRepository tipoMedioDeTransporteRepository;
 
     @Autowired
-    ExcelService excelService;
+    private RegistroCalculoHCDatoActividadService registroCalculoHCDatoActividadService;
+
+    @Autowired
+    private ExcelService excelService;
+
+    @Autowired
+    private CalculadoraHC calculadoraHC;
 
     public OrganizacionService() {
     }
 
-    public ResponseEntity<Object> crearOrganizacion(RequestCrearOrganizacion request){
+    public ResponseEntity<Object> crearOrganizacion(OrganizacionDto request){
         ResponseCrearOrganizacion response = new ResponseCrearOrganizacion();
         Organizacion organizacion = new Organizacion();
-        organizacion.setRazonSocial(request.getRazonSocial());
-        organizacion.setTipoOrganizacion(TipoOrganizacion.getFromOrdinal(request.getTipoOrganizacion().getId()));
-        organizacion.setClasificacion(Clasificacion.getFromOrdinal(request.getClasificacion().getId()));
-        organizacion.setCantDiasHabilesPorSemana(request.getCantDiasHabilesPorSemana());
-        organizacion.setCantDiasHabilesPorSemana(request.getCantDiasHabilesPorSemana());
-
-        Unidad unidadFactorK = request.getFactorK().getUnidad() != null
-                ? unidadService.getById(request.getFactorK().getUnidad().getId())
-                : null;
-        Cantidad factorK = new Cantidad(unidadFactorK, request.getFactorK().getValor());
-        organizacion.setFactorK(factorK);
-        // Si un Contacto esta guardado en la BD y no esta en el DTO, es que se elimino
-        organizacion.getContactos().removeIf(contacto -> request.getContactos().stream().noneMatch(contactoDto -> contacto.getId() == contactoDto.getId()));
-
-        for (ContactoDto contactoDto : request.getContactos()) {
-            if (contactoDto.getId() != 0) {
-                Contacto contacto = organizacion.getContactos().stream().filter(c -> c.getId() == contactoDto.getId()).findFirst().get();
-                updateContactoFromDto(contacto, contactoDto);
-            } else {
-                Contacto contacto = new Contacto();
-                updateContactoFromDto(contacto, contactoDto);
-                organizacion.addContacto(contacto);
-            }
-        }
+        updateEntityFieldsFromDto(organizacion, request);
         organizationRepository.save(organizacion);
         response.setMessage("Creacion existosa");
         response.setIdOrganizacion(organizacion.getId());
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
+    }
+
+    public ResponseWithSingleResult<OrganizacionDto>  editarOrganizacion(long id, OrganizacionDto request){
+        if (id != request.getId()) {
+            return new ResponseWithSingleResult<>(
+                    HttpStatus.BAD_REQUEST,
+                    "El ID de la ruta (" + id + ")  no coincide con el de la request (" + request.getId() + ")",
+                    null);
+        }
+
+        Organizacion organizacion = organizationRepository.findById(request.getId()).orElse(null);
+        updateEntityFieldsFromDto(organizacion, request);
+        organizationRepository.save(organizacion);
+        return new ResponseWithSingleResult<>(HttpStatus.OK, createDtoFromEntity(organizacion));
+    }
+
+    public Response eliminarOrganizacion(long id){
+        organizationRepository.deleteById(id);
+        return new Response(HttpStatus.OK);
+    }
+
+    @Transactional
+    public ResponseWithSingleResult<OrganizacionDto> getDtoById(long id) {
+        return new ResponseWithSingleResult<>(HttpStatus.OK, createDtoFromEntity(organizationRepository.getById(id)));
     }
 
     public ResponseWithResults<OrganizacionDto> getAllDtos() {
@@ -148,7 +155,7 @@ public class OrganizacionService {
                 .collect(Collectors.toList());
         organizacion.addMediciones(medicionesParseadas);
 
-        //calcularHCDatosActividadYGuardarRegistroCalculo(organizacion, medicionesParseadas);
+        calcularHCDatosActividadYGuardarRegistroCalculo(organizacion, medicionesParseadas);
     }
 
     private Medicion rowToMedicion(RowMedicionActividad row) {
@@ -198,6 +205,105 @@ public class OrganizacionService {
         contacto.setTelefono(dto.getTelefono());
         contacto.setDeseaRecibirPorWhatsapp(dto.getDeseaRecibirPorWhatsapp());
         contacto.setDeseaRecibirPorMail(dto.getDeseaRecibirPorMail());
+    }
+
+    private void updateEntityFieldsFromDto(Organizacion organizacion, OrganizacionDto dto) {
+        organizacion.setRazonSocial(dto.getRazonSocial());
+        organizacion.setTipoOrganizacion(TipoOrganizacion.getFromOrdinal(dto.getTipoOrganizacion().getId()));
+        organizacion.setClasificacion(Clasificacion.getFromOrdinal(dto.getClasificacion().getId()));
+        organizacion.setCantDiasHabilesPorSemana(dto.getCantDiasHabilesPorSemana());
+
+        Unidad unidadFactorK = dto.getFactorK().getUnidad() != null
+                ? unidadService.getById(dto.getFactorK().getUnidad().getId())
+                : null;
+        Cantidad factorK = new Cantidad(unidadFactorK, dto.getFactorK().getValor());
+        organizacion.setFactorK(factorK);
+
+        // Si un Contacto esta guardado en la BD y no esta en el DTO, es que se elimino
+        organizacion.getContactos().removeIf(contacto -> dto.getContactos().stream().noneMatch(contactoDto -> contacto.getId() == contactoDto.getId()));
+
+        for (ContactoDto contactoDto : dto.getContactos()) {
+            if (contactoDto.getId() != 0) {
+                Contacto contacto = organizacion.getContactos().stream().filter(c -> c.getId() == contactoDto.getId()).findFirst().get();
+                updateContactoFromDto(contacto, contactoDto);
+            } else {
+                Contacto contacto = new Contacto();
+                updateContactoFromDto(contacto, contactoDto);
+                organizacion.addContacto(contacto);
+            }
+        }
+    }
+
+    private void calcularHCDatosActividadYGuardarRegistroCalculo(Organizacion organizacion, List<Medicion> mediciones) {
+        Map<LocalDate, Cantidad> huellasDeCarbonoMensuales = new HashMap<>();
+        Map<LocalDate, Cantidad> huellasDeCarbonoAnuales = new HashMap<>();
+        Set<Medicion> medicionesYaProcesadas = new HashSet<>();
+
+        for (Medicion medicion : mediciones) {
+            if (medicionesYaProcesadas.contains(medicion))
+                continue;
+
+            medicionesYaProcesadas.add(medicion);
+            Cantidad valorHuellaDeCarbono;
+            if (medicion.getActividad() == Actividad.LOGISTICA_DE_PRODUCTOS_Y_RESIDUOS) {
+                List<Medicion> medicionesCorrespondientes = getMedicionesCorrespondientesDeLogistica(medicion, mediciones);
+                valorHuellaDeCarbono = calculadoraHC.calcularHCDatoActividadLogistica(medicionesCorrespondientes);
+                // Para que no se vuelvan a procesar las Mediciones que corresponden con la Medicion actual (se procesan todas juntas)
+                medicionesYaProcesadas.addAll(medicionesCorrespondientes);
+            } else {
+                valorHuellaDeCarbono = calculadoraHC.calcularHCDatoActividadNoLogistica(medicion);
+            }
+
+            if (medicion.getPeriodicidad() == Periodicidad.MENSUAL) {
+                huellasDeCarbonoMensuales.merge(medicion.getPeriodoImputacion(), valorHuellaDeCarbono,
+                        Cantidad::add);
+            } else {
+                huellasDeCarbonoAnuales.merge(medicion.getPeriodoImputacion(), valorHuellaDeCarbono,
+                        Cantidad::add);
+            }
+        }
+
+        guardarRegistrosCalculoHCMensuales(organizacion, huellasDeCarbonoMensuales);
+        guardarRegistrosCalculoHCAnuales(organizacion, huellasDeCarbonoAnuales);
+    }
+
+    private void guardarRegistrosCalculoHCMensuales(Organizacion organizacion, Map<LocalDate, Cantidad> huellasDeCarbono) {
+        huellasDeCarbono.forEach((periodoImputacion, valorHC) -> {
+            RegistroCalculoHCDatoActividad registroCalculoHC = new RegistroCalculoHCDatoActividad(
+                    Periodicidad.MENSUAL, periodoImputacion, valorHC);
+            organizacion.addRegistroCalculoHC(registroCalculoHC);
+            registroCalculoHCDatoActividadService.save(registroCalculoHC);
+        });
+    }
+
+    private void guardarRegistrosCalculoHCAnuales(Organizacion organizacion, Map<LocalDate, Cantidad> huellasDeCarbono) {
+        huellasDeCarbono.forEach((periodoImputacion, valorHC) -> {
+            valorHC = calculadoraHC.calcularHCAnualProrrateadoDatoActividad(valorHC, periodoImputacion.getYear());
+            Optional<RegistroCalculoHCDatoActividad> optionalRegistroCalculoHC = registroCalculoHCDatoActividadService.getRegistroCalculoHCParaPeriodo(
+                    organizacion.getId(), Periodicidad.ANUAL, periodoImputacion
+            );
+            if (optionalRegistroCalculoHC.isPresent()) {
+                RegistroCalculoHCDatoActividad registroExistenteCalculoHC = optionalRegistroCalculoHC.get();
+                registroExistenteCalculoHC.setValor(valorHC);
+            } else {
+                RegistroCalculoHCDatoActividad registroCalculoHC = new RegistroCalculoHCDatoActividad(
+                        Periodicidad.ANUAL, periodoImputacion, valorHC);
+                organizacion.addRegistroCalculoHC(registroCalculoHC);
+                registroCalculoHCDatoActividadService.save(registroCalculoHC);
+            }
+        });
+    }
+
+    /**
+     * Retorna todas las Mediciones que se corresponden con la Medicion que recibe por parametro (coinciden la Periodicidad
+     * y el PeriodoImputacion).
+     */
+    private List<Medicion> getMedicionesCorrespondientesDeLogistica(Medicion medicionAComparar, List<Medicion> mediciones) {
+        return mediciones.stream()
+                .filter(medicion -> medicion.getActividad() == Actividad.LOGISTICA_DE_PRODUCTOS_Y_RESIDUOS &&
+                        medicion.getPeriodicidad() == medicionAComparar.getPeriodicidad() &&
+                        medicion.getPeriodoImputacion().equals(medicionAComparar.getPeriodoImputacion()))
+                .collect(Collectors.toList());
     }
 
 }

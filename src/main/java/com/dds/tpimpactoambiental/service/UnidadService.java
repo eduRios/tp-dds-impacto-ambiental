@@ -2,6 +2,7 @@ package com.dds.tpimpactoambiental.service;
 
 import com.dds.tpimpactoambiental.dtos.ResponseWithResults;
 import com.dds.tpimpactoambiental.dtos.UnidadDto;
+import com.dds.tpimpactoambiental.model.Cantidad;
 import com.dds.tpimpactoambiental.model.TipoUnidad;
 import com.dds.tpimpactoambiental.model.Unidad;
 import com.dds.tpimpactoambiental.repository.TipoUnidadRepository;
@@ -23,8 +24,6 @@ public class UnidadService {
     private UnidadRepository repository;
     @Autowired
     private TipoUnidadRepository tipoUnidadRepository;
-    private ExcelService excelService;
-
 
     @Transactional
     public Optional<Unidad> getBySimbolo(String simbolo) {
@@ -38,13 +37,13 @@ public class UnidadService {
                 .collect(Collectors.toList());
         return new ResponseWithResults<>(HttpStatus.OK, dtos);
     }
-/*
+
     @Transactional
     public Cantidad sumarCantidades(List<Cantidad> cantidades, String unidadPorDefecto) {
         return cantidades.stream()
                 .reduce(Cantidad::add)
                 .orElse(new Cantidad(this.getBySimbolo(unidadPorDefecto).get(), 0));
-    }*/
+    }
 
 
     public void seedData() {

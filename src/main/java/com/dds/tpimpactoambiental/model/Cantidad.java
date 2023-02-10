@@ -1,6 +1,9 @@
 package com.dds.tpimpactoambiental.model;
 
 
+import com.dds.tpimpactoambiental.service.RelacionUnidadesService;
+import org.javatuples.Pair;
+
 import javax.persistence.*;
 import java.util.Objects;
 
@@ -79,7 +82,7 @@ public class Cantidad extends BaseEntity {
             Cantidad resultadoEnUnidadBase = thisEnUnidadBase.add(otherEnUnidadBase);
             return resultadoEnUnidadBase.toUnidad(this.unidad);
         }
-/*
+
         public Cantidad times(Cantidad other, RelacionUnidadesService relacionUnidadesService) {
             Cantidad this_ = this, other_ = other;
             Pair<Unidad, Boolean> resultadoUnidad = relacionUnidadesService.getUnidadResultanteDeProducto(this_.unidad, other_.unidad);
@@ -91,7 +94,7 @@ public class Cantidad extends BaseEntity {
             double nuevoValor = this_.valor * other_.valor;
             return new Cantidad(resultadoUnidad.getValue0(), nuevoValor);
         }
-*/
+
     public Cantidad times(double factor) {
         double nuevoValor = this.valor * factor;
         return new Cantidad(this.unidad, nuevoValor);

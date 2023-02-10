@@ -137,6 +137,18 @@
     "password" : "corne752389"
 }
 ```
+## cargar mediciones
+### cargarMedicion
+* **_descripcion_:** se cargan las mediciones mediante un excel en cierto formato.
+
+
+* **_URL_:** http://localhost:8080/api/organizacion/cargar-mediciones (POST)
+
+
+* **_Request_:**
+en este caso se debe ejecutar desde el form-data de postman con los siguientes parametros:
+* idOrganizacion = 1
+* file = https://docs.google.com/spreadsheets/d/1Kz3U-VWVK3ZR-J_pUzkWLSLUbkwe-yzUImAckNsekXM/edit?usp=sharing
 
 ### En Desarrollo (proximamente)
 * **_Role de usuario_:** ya esta desarrollado, solo falta hacer la relacion con mienbro mas test.
