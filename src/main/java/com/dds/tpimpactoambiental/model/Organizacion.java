@@ -39,6 +39,9 @@ public class Organizacion extends BaseEntity{
     @OneToMany(mappedBy = "organizacion", cascade = CascadeType.ALL)
     private List<RegistroCalculoHCDatoActividad> registrosCalculoHCDatoActividad = new ArrayList<>();
 
+    @ManyToMany(mappedBy = "organizaciones")
+    private List<SectorTerritorial> sectoresTerritoriales = new ArrayList<>();
+
     public Organizacion() {
     }
 
@@ -128,6 +131,14 @@ public class Organizacion extends BaseEntity{
 
     public void setRegistrosCalculoHCDatoActividad(List<RegistroCalculoHCDatoActividad> registrosCalculoHCDatoActividad) {
         this.registrosCalculoHCDatoActividad = registrosCalculoHCDatoActividad;
+    }
+
+    public List<SectorTerritorial> getSectoresTerritoriales() {
+        return sectoresTerritoriales;
+    }
+
+    public void setSectoresTerritoriales(List<SectorTerritorial> sectoresTerritoriales) {
+        this.sectoresTerritoriales = sectoresTerritoriales;
     }
 
     public void addSector(Sector sector) {
