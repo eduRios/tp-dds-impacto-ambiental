@@ -1,5 +1,6 @@
 package com.dds.tpimpactoambiental.model;
 
+import com.dds.tpimpactoambiental.service.calculodistancias.CalculadoraDistancias;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
@@ -40,13 +41,12 @@ public class Tramo extends BaseEntity{
     public Tramo() {
     }
 
-    /*
-        // Desnormaliza el dato de la distancia recorrida en el tramo, una vez que se calcula no tiene sentido volver
-        // a calcularlo asi que se guarda aca.
-        @OneToOne(cascade = CascadeType.ALL)
-        @JoinColumn(name = "distancia_recorrida", foreignKey = @ForeignKey(name = "FK_Tramos_DistanciaRecorrida"))
-        private Cantidad distanciaRecorrida;
-    */
+    // Desnormaliza el dato de la distancia recorrida en el tramo, una vez que se calcula no tiene sentido volver
+    // a calcularlo asi que se guarda aca.
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "distancia_recorrida", foreignKey = @ForeignKey(name = "FK_Tramos_DistanciaRecorrida"))
+    private Cantidad distanciaRecorrida;
+
     public Tramo(Trayecto trayecto, MedioTransporte medioDeTransporte, Lugar lugarInicio, Lugar lugarFin) {
         this.trayecto = trayecto;
         this.medioDeTransporte = medioDeTransporte;
@@ -63,6 +63,20 @@ public class Tramo extends BaseEntity{
         miembros.forEach(this::addMiembro);
     }
 
+    public void calcularDistanciaRecorrida(CalculadoraDistancias calculadoraDistancias) {
+        if (medioDeTransporte instanceof TransportePublico) {
+            TransportePublico transportePublico = (TransportePublico) medioDeTransporte;
+            Parada paradaInicial = (Parada) lugarInicio;
+            Parada paradaFinal = (Parada) lugarFin;
+            distanciaRecorrida = calculadoraDistancias.calcularDistanciaTransportePublico(paradaInicial, paradaFinal);
+        } else {
+            distanciaRecorrida = calculadoraDistancias.calcularDistanciaConGeoService(lugarInicio, lugarFin);
+        }
+    }
+
+    public double combustibleConsumido() {
+        return distanciaRecorrida.getValor() * medioDeTransporte.getCombustibleConsumidoPorKm();
+    }
     public Trayecto getTrayecto() {
         return trayecto;
     }
@@ -101,5 +115,13 @@ public class Tramo extends BaseEntity{
 
     public void setMiembros(List<Miembro> miembros) {
         this.miembros = miembros;
+    }
+
+    public Cantidad getDistanciaRecorrida() {
+        return distanciaRecorrida;
+    }
+
+    public void setDistanciaRecorrida(Cantidad distanciaRecorrida) {
+        this.distanciaRecorrida = distanciaRecorrida;
     }
 }

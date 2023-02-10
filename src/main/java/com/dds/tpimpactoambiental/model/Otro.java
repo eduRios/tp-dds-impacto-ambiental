@@ -17,6 +17,17 @@ public class Otro extends MedioTransporte{
         this.descripcion = descripcion;
     }
 
+    @Override
+    public double getCombustibleConsumidoPorKm() {
+        // Un vehiculo no contaminante no usa combustible, asi que gasta siempre 0
+        return 0;
+    }
+
+    @Override
+    public String toString() {
+        return getTipoMedioDeTransporte().toString();
+    }
+
     public String getDescripcion() {
         return descripcion;
     }

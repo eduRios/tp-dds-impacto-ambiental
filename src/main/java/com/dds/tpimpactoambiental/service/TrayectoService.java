@@ -8,6 +8,7 @@ import com.dds.tpimpactoambiental.repository.LugarRepository;
 import com.dds.tpimpactoambiental.repository.MedioTransporteRepository;
 import com.dds.tpimpactoambiental.repository.MemberRepository;
 import com.dds.tpimpactoambiental.repository.TrayectoRepository;
+import com.dds.tpimpactoambiental.service.calculodistancias.CalculadoraDistancias;
 import com.dds.tpimpactoambiental.utils.DateTimeUtils;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -25,25 +26,23 @@ public class TrayectoService {
     private final LugarRepository lugarRepository;
     private final MemberRepository miembroRepository;
     private final MedioTransporteRepository medioDeTransporteRepository;
-    //private final CalculadoraDistancias calculadoraDistancias;
+    private final CalculadoraDistancias calculadoraDistancias;
     //private final CalculadoraHC calculadoraHC;
 
-    public TrayectoService(TrayectoRepository repository, TrayectoRepository trayectoRepository, LugarRepository lugarRepository, MemberRepository miembroRepository, MedioTransporteRepository medioDeTransporteRepository) {
+    public TrayectoService(TrayectoRepository repository, TrayectoRepository trayectoRepository, LugarRepository lugarRepository, MemberRepository miembroRepository, MedioTransporteRepository medioDeTransporteRepository, CalculadoraDistancias calculadoraDistancias) {
         this.trayectoRepository = trayectoRepository;
         this.lugarRepository = lugarRepository;
         this.miembroRepository = miembroRepository;
         this.medioDeTransporteRepository = medioDeTransporteRepository;
-        //this.calculadoraDistancias = calculadoraDistancias;
+        this.calculadoraDistancias = calculadoraDistancias;
         //this.calculadoraHC = calculadoraHC;
     }
 
     @Transactional
     public void crearTrayecto(TrayectoDto trayectoDto) {
 
-        //AUN FALTA TERMINAR DETERMMINAR SI EL LUGAR SE OBTIENE DE LA ORGANIZACION O SE CREA DEL MMIEMBRO
-        trayectoDto.getLugarInicio().getTipoClass();
-        Lugar lugarInicio = trayectoDto.getLugarInicio().getTipoClass();
-        Lugar lugarFin = trayectoDto.getLugarFin().getTipoClass();
+        Lugar lugarInicio = lugarRepository.getById(trayectoDto.getLugarInicio().getId());
+        Lugar lugarFin = lugarRepository.getById(trayectoDto.getLugarFin().getId());
 
         LocalDate fechaInicio = DateTimeUtils.dateWithOnlyYearAndMonth(trayectoDto.getFechaInicio());
         LocalDate fechaFin = DateTimeUtils.dateWithOnlyYearAndMonth(trayectoDto.getFechaFin());
@@ -52,7 +51,7 @@ public class TrayectoService {
 
         List<MiembroPorTrayecto> miembros = trayectoDto.getMiembrosPorTrayecto().stream()
                 .map(miembroPorTrayectoDto -> new MiembroPorTrayecto(
-                        miembroRepository.getById(miembroPorTrayectoDto.getMiembro().getId()),
+                        miembroRepository.findById(miembroPorTrayectoDto.getMiembro().getId()).orElse(null),
                         trayecto,
                         miembroPorTrayectoDto.getPeso()
                 ))
@@ -86,7 +85,7 @@ public class TrayectoService {
 
         Tramo tramo = new Tramo(trayecto, medioDeTransporte, lugarInicio, lugarFin);
         tramo.addMiembros(miembros);
-        //tramo.calcularDistanciaRecorrida(calculadoraDistancias);
+        tramo.calcularDistanciaRecorrida(calculadoraDistancias);
         return tramo;
     }
 /*

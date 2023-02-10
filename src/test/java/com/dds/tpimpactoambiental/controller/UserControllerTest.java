@@ -1,5 +1,8 @@
 package com.dds.tpimpactoambiental.controller;
 
+import com.dds.tpimpactoambiental.dtos.request.RequestRegistrarUsuario;
+import com.dds.tpimpactoambiental.dtos.response.LoginResponse;
+import com.dds.tpimpactoambiental.dtos.response.RegistrarUsuarioResponse;
 import com.dds.tpimpactoambiental.model.Usuario;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,45 +19,45 @@ public class UserControllerTest {
 
     @Test
     public void registrarOk(){
-        Usuario user = new Usuario("raul77","raul923681");
-        ResponseEntity<Object> response = userController.registrar(user);
+        RequestRegistrarUsuario user = new RequestRegistrarUsuario("raul77","raul923681",0);
+        ResponseEntity<RegistrarUsuarioResponse> response = userController.registrar(user);
         assertEquals(HttpStatus.CREATED,response.getStatusCode());
     }
     @Test
     public void registrarErrorContraseñaDebil(){
-        Usuario user = new Usuario("raul77","12345678");
-        ResponseEntity<Object> response = userController.registrar(user);
+        RequestRegistrarUsuario user = new RequestRegistrarUsuario("raul77","12345678");
+        ResponseEntity<RegistrarUsuarioResponse> response = userController.registrar(user);
         assertEquals(HttpStatus.FORBIDDEN,response.getStatusCode());
-        assertEquals("La Password es debil",response.getBody());
+        assertEquals("La Password es debil",response.getBody().getMessage());
     }
 
     @Test
     public void registrarErrorLimiteInsuficiente(){
-        Usuario user = new Usuario("raul77","1234");
-        ResponseEntity<Object> response = userController.registrar(user);
+        RequestRegistrarUsuario user = new RequestRegistrarUsuario("raul77","1234");
+        ResponseEntity<RegistrarUsuarioResponse> response = userController.registrar(user);
         assertEquals(HttpStatus.FORBIDDEN,response.getStatusCode());
-        assertEquals("limite insuficiente",response.getBody());
+        assertEquals("limite insuficiente",response.getBody().getMessage());
     }
 
     @Test
     public void registrarErrorTieneCaracteresRepetidos(){
-        Usuario user = new Usuario("raul77","1234433333");
-        ResponseEntity<Object> response = userController.registrar(user);
+        RequestRegistrarUsuario user = new RequestRegistrarUsuario("raul77","1234433333");
+        ResponseEntity<RegistrarUsuarioResponse> response = userController.registrar(user);
         assertEquals(HttpStatus.FORBIDDEN,response.getStatusCode());
-        assertEquals("tiene caracteres repetidos",response.getBody());
+        assertEquals("tiene caracteres repetidos",response.getBody().getMessage());
     }
 
     @Test
     public void iniciarSesionOk(){
         Usuario user = new Usuario("bari","wowesmivida12");
-        ResponseEntity<Object> response = userController.iniciarSesion(user);
+        ResponseEntity<LoginResponse> response = userController.iniciarSesion(user);
         assertEquals(HttpStatus.OK,response.getStatusCode());
     }
     @Test
     public void iniciarSesionErrorUsuarioInexistente(){
         Usuario user = new Usuario("raul77","raul923682");
-        ResponseEntity<Object> response = userController.iniciarSesion(user);
+        ResponseEntity<LoginResponse> response = userController.iniciarSesion(user);
         assertEquals(HttpStatus.FORBIDDEN,response.getStatusCode());
-        assertEquals("Usuario inexistente",response.getBody());
+        assertEquals("Usuario inexistente",response.getBody().getMessage());
     }
 }

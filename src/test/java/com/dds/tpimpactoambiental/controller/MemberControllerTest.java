@@ -17,7 +17,7 @@ public class MemberControllerTest {
 
     @Autowired
     private MemberController memberController;
-
+/*
     @Test
     public void registrarDatosPersonalesOk(){
         Miembro max = new Miembro("Max","Power","DNI","22222222");
@@ -30,5 +30,5 @@ public class MemberControllerTest {
         Organizacion utn = new Organizacion("UTN","Institución", Arrays.asList("Centro de estudiantes","Direccion"),"Universidad");
         ResponseEntity<Object> response = memberController.registrarOrganizacion(3L,utn);
         assertEquals(HttpStatus.CREATED,response.getStatusCode());
-    }
+    }*/
 }

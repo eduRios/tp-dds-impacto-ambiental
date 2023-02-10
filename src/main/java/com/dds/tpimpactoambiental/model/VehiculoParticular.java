@@ -1,20 +1,30 @@
 package com.dds.tpimpactoambiental.model;
 
-import javax.persistence.DiscriminatorValue;
-import javax.persistence.Entity;
+import javax.persistence.*;
 
 @Entity
 @DiscriminatorValue(value = "vehiculo particular")
 public class VehiculoParticular extends MedioTransporte{
     String tipoVeiculo;
-    String tipoConbustible;
+
+    @ManyToOne
+    @JoinColumn(
+            name = "combustible",
+            nullable = false,
+            foreignKey = @ForeignKey(name = "FK_VehiculosParticulares_Combustible")
+    )
+    private Combustible combustible;
+
+    private double combustibleConsumidoPorKm;
 
     public VehiculoParticular() {
     }
 
-    public VehiculoParticular(String tipoVeiculo, String tipoConbustible) {
+
+    public VehiculoParticular(String tipoVeiculo, Combustible combustible, double combustibleConsumidoPorKm) {
         this.tipoVeiculo = tipoVeiculo;
-        this.tipoConbustible = tipoConbustible;
+        this.combustible = combustible;
+        this.combustibleConsumidoPorKm = combustibleConsumidoPorKm;
     }
 
     public String getTipoVeiculo() {
@@ -25,11 +35,19 @@ public class VehiculoParticular extends MedioTransporte{
         this.tipoVeiculo = tipoVeiculo;
     }
 
-    public String getTipoConbustible() {
-        return tipoConbustible;
+    public Combustible getCombustible() {
+        return combustible;
     }
 
-    public void setTipoConbustible(String tipoConbustible) {
-        this.tipoConbustible = tipoConbustible;
+    public void setCombustible(Combustible combustible) {
+        this.combustible = combustible;
+    }
+
+    public double getCombustibleConsumidoPorKm() {
+        return combustibleConsumidoPorKm;
+    }
+
+    public void setCombustibleConsumidoPorKm(double combustibleConsumidoPorKm) {
+        this.combustibleConsumidoPorKm = combustibleConsumidoPorKm;
     }
 }

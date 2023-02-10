@@ -5,7 +5,17 @@ import java.util.List;
 
 @Entity
 @Table(name="usuario")
-public class Usuario {
+public class Usuario extends BaseEntity{
+
+    String username;
+    String password;
+
+    @ManyToMany(fetch = FetchType.EAGER)
+    @JoinTable(name="user_roles",joinColumns=@JoinColumn(name="user_id"),inverseJoinColumns=@JoinColumn(name="role_id"))
+    List<Rol> roles;
+
+    @OneToOne(mappedBy = "usuario")
+    private Miembro miembro;
 
     public Usuario() {
     }
@@ -15,16 +25,11 @@ public class Usuario {
         this.password = password;
     }
 
-    @Id
-    @GeneratedValue(strategy= GenerationType.IDENTITY)
-    private Long id;
-    String username;
-    String password;
-
-    @ManyToMany(fetch = FetchType.EAGER)
-    @JoinTable(name="user_roles",joinColumns=@JoinColumn(name="user_id"),inverseJoinColumns=@JoinColumn(name="role_id"))
-    List<Rol> roles;
-
+    public Usuario(String username, String password, List<Rol> roles) {
+        this.username = username;
+        this.password = password;
+        this.roles = roles;
+    }
     public String getUsername() {
         return username;
     }
@@ -47,5 +52,18 @@ public class Usuario {
 
     public void setRoles(List<Rol> roles) {
         this.roles = roles;
+    }
+
+    public Miembro getMiembro() {
+        return miembro;
+    }
+
+    public void setMiembro(Miembro miembro) {
+        this.miembro = miembro;
+    }
+
+    @Override
+    public String toString() {
+        return username;
     }
 }

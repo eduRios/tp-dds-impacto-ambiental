@@ -1,23 +1,22 @@
 package com.dds.tpimpactoambiental.service.calculodistancias;
 
-import com.dds.tpimpactoambiental.model.Direccion;
-import com.dds.tpimpactoambiental.model.Lugar;
+import com.dds.tpimpactoambiental.model.*;
+import com.dds.tpimpactoambiental.service.UnidadService;
 import com.dds.tpimpactoambiental.service.calculodistancias.apidistancias.GeoService;
 import com.dds.tpimpactoambiental.service.calculodistancias.apidistancias.dtos.DistanciaDto;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
 
 @Service
 public class CalculadoraDistancias {
-    private final GeoService geoService;
-    //private final UnidadService unidadService;
+    @Autowired
+    private GeoService geoService;
+    @Autowired
+    private UnidadService unidadService;
 
-    public CalculadoraDistancias(GeoService geoService) {
-        this.geoService = geoService;
-        //this.unidadService = unidadService;
-    }
-/*
+
     public Cantidad calcularDistanciaTransportePublico(Parada paradaInicial, Parada paradaFinal) {
         Cantidad distanciaRecorrida = new Cantidad(unidadService.getBySimbolo("km").get(), 0);
         Parada paradaActual = paradaInicial;
@@ -27,8 +26,8 @@ public class CalculadoraDistancias {
         }
         return distanciaRecorrida;
     }
-*/
-    public void calcularDistanciaConGeoService(Lugar lugarInicio, Lugar lugarFin) {
+
+    public Cantidad calcularDistanciaConGeoService(Lugar lugarInicio, Lugar lugarFin) {
         try {
             Direccion direccionInicio = lugarInicio.getDireccion();
             Direccion direccionFin = lugarFin.getDireccion();
@@ -37,10 +36,9 @@ public class CalculadoraDistancias {
             int localidadFinId = direccionFin.getLocalidad().getIdSegunApi();
 
             DistanciaDto distanciaDto = geoService.getDistancia(localidadInicioId, direccionInicio.getCalle(), direccionInicio.getAltura(), localidadFinId, direccionFin.getCalle(), direccionFin.getAltura());
-            //Unidad unidadDistancia = unidadService.getBySimbolo(distanciaDto.getUnidad().toLowerCase()).get();
-            //Unidad KM = unidadService.getBySimbolo("km").get();
-            //new Cantidad(unidadDistancia, distanciaDto.getValor()).toUnidad(KM);
-            //return null;
+            Unidad unidadDistancia = unidadService.getBySimbolo(distanciaDto.getUnidad().toLowerCase()).get();
+            Unidad KM = unidadService.getBySimbolo("km").get();
+            return new Cantidad(unidadDistancia, distanciaDto.getValor()).toUnidad(KM);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }

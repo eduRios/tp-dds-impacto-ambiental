@@ -1,17 +1,31 @@
 package com.dds.tpimpactoambiental.controller;
 
+import com.dds.tpimpactoambiental.dtos.*;
+import com.dds.tpimpactoambiental.dtos.request.RequestAceptarSolicitud;
+import com.dds.tpimpactoambiental.dtos.request.RequestCargarMediciones;
+import com.dds.tpimpactoambiental.dtos.request.RequestCrearOrganizacion;
+import com.dds.tpimpactoambiental.dtos.response.Response;
+import com.dds.tpimpactoambiental.model.Usuario;
 import com.dds.tpimpactoambiental.service.ExcelHelper;
 import com.dds.tpimpactoambiental.service.ExcelService;
+import com.dds.tpimpactoambiental.service.OrganizacionService;
+import com.dds.tpimpactoambiental.utils.ResponseEntityUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
+import java.time.LocalDate;
+
 @RestController
-@RequestMapping("/organization")
+@CrossOrigin(origins = "http://localhost:4200", maxAge = 3600)
+@RequestMapping("/api/organizacion")
 public class OrganizationController {
 
+    @Autowired
+    OrganizacionService organizacionService;
     @Autowired
     ExcelService fileService;
     @PostMapping(path = "/upload/{idOrg}")
@@ -30,4 +44,58 @@ public class OrganizationController {
         message = "Please upload an excel file!";
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(message);
     }
+
+
+
+    @GetMapping
+    public ResponseEntity<ResponseWithResults<OrganizacionDto>> listarOrganizaciones() {
+        return ResponseEntityUtils.toResponseEntity(organizacionService.getAllDtos());
+    }
+
+    @PostMapping
+    public ResponseEntity<Object> crearOrganizacion(@RequestBody OrganizacionDto request){
+        return organizacionService.crearOrganizacion(request);
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<Response> editarOrganizacion(@PathVariable long id, @RequestBody OrganizacionDto request) {
+        return ResponseEntityUtils.toResponseEntity(organizacionService.editarOrganizacion(id, request));
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Response> deleteOrganizacion(@PathVariable long id) {
+        return ResponseEntityUtils.toResponseEntity(organizacionService.eliminarOrganizacion(id));
+    }
+    @PostMapping(path = "/aceptar-solicitud")
+    public ResponseEntity<Object> aceptarSolicitud(@RequestBody RequestAceptarSolicitud request){
+        return organizacionService.aceptarSolicitud(request);
+    }
+
+    @GetMapping("/tipos")
+    public ResponseEntity<ResponseWithResults<IdTextPair>> listarTiposDeOrganizacion() {
+        return ResponseEntityUtils.toResponseEntity(organizacionService.listarTiposDeOrganizacion());
+    }
+
+    @GetMapping("/clasificaciones")
+    public ResponseEntity<ResponseWithResults<IdTextPair>> listarClasificaciones() {
+        return ResponseEntityUtils.toResponseEntity(organizacionService.listarClasificaciones());
+    }
+
+    @PostMapping("/cargar-mediciones")
+    public ResponseEntity<Response> cargarMediciones(RequestCargarMediciones request) throws IOException {
+        organizacionService.cargarMediciones(request);
+        return ResponseEntityUtils.toResponseEntity(new Response(HttpStatus.OK));
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<ResponseWithSingleResult<OrganizacionDto>> getOrganizacion(@PathVariable long id) {
+        return ResponseEntityUtils.toResponseEntity(organizacionService.getDtoById(id));
+    }
+/*
+    @GetMapping("/solicitudes")
+    public ResponseEntity<ResponseWithResults<SolicitudDto>> listarSolicitudes() {
+        Usuario currentUser = currentUserService.get();
+        long idOrganizacion = currentUser.getMiembro().getOrganizacion().getId();
+        return ResponseEntityUtils.toResponseEntity(organizacionService.listarSolicitudes(idOrganizacion));
+    }*/
 }

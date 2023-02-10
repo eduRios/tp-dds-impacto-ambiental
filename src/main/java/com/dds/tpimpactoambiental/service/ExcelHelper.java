@@ -1,10 +1,7 @@
 package com.dds.tpimpactoambiental.service;
 
 import com.dds.tpimpactoambiental.model.DatosActividad;
-import org.apache.poi.ss.usermodel.Cell;
-import org.apache.poi.ss.usermodel.Row;
-import org.apache.poi.ss.usermodel.Sheet;
-import org.apache.poi.ss.usermodel.Workbook;
+import org.apache.poi.ss.usermodel.*;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -16,6 +13,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
+import java.util.function.Function;
 
 public class ExcelHelper {
     public static String TYPE = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
@@ -75,6 +73,30 @@ public class ExcelHelper {
         } catch ( IOException e) {
             throw new RuntimeException("fail to parse Excel file: " + e.getMessage());
         }
+    }
+
+    public static boolean cellIsEmpty(Cell cell) {
+        if (cell == null || cell.getCellType() == CellType.BLANK)
+            return true;
+
+        if (cell.getCellType() == CellType.STRING) {
+            String cellValue = cell.getStringCellValue().trim();
+            if (cellValue.isEmpty() || cellValue.equals("-"))
+                return true;
+        }
+
+        return false;
+    }
+
+    public static String getCellStringValueOrNullIfEmpty(Cell cell) {
+        if (cellIsEmpty(cell))
+            return null;
+        return cell.getStringCellValue().trim();
+    }
+
+    public static String readCellAsString(Cell cell) {
+        DataFormatter dataFormatter = new DataFormatter();
+        return dataFormatter.formatCellValue(cell);
     }
 }
 

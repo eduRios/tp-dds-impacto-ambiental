@@ -17,7 +17,7 @@ public class Direccion extends BaseEntity {
     private String altura;
 
     @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
-    @JoinColumn(name = "localidad", nullable = false, foreignKey = @ForeignKey(name = "FK_Direcciones_Localidad"))
+    @JoinColumn(name = "localidad", nullable = true, foreignKey = @ForeignKey(name = "FK_Direcciones_Localidad"))
     private Localidad localidad;
 
     public Direccion() {
