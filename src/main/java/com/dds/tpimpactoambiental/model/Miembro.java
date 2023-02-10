@@ -29,6 +29,9 @@ public class Miembro extends BaseEntity{
     @JoinColumn(name = "sector", foreignKey = @ForeignKey(name = "FK_Miembros_Sector"))
     private Sector sector;
 
+    @OneToMany(mappedBy = "miembro", cascade = CascadeType.ALL)
+    private List<RegistroCalculoHCTrayecto> registrosCalculoHCTrayectos;
+
     public Miembro() {
     }
 
@@ -88,6 +91,14 @@ public class Miembro extends BaseEntity{
         this.tramos = tramos;
     }
 
+    public List<RegistroCalculoHCTrayecto> getRegistrosCalculoHCTrayectos() {
+        return registrosCalculoHCTrayectos;
+    }
+
+    public void setRegistrosCalculoHCTrayectos(List<RegistroCalculoHCTrayecto> registrosCalculoHCTrayectos) {
+        this.registrosCalculoHCTrayectos = registrosCalculoHCTrayectos;
+    }
+
     public void setUsuario(Usuario usuario) {
         this.usuario = usuario;
         usuario.setMiembro(this);
@@ -100,12 +111,12 @@ public class Miembro extends BaseEntity{
                 .distinct()
                 .collect(Collectors.toList());
     }
-/*
+
     public Cantidad getHCDeTrayecto(Trayecto trayecto) {
         return registrosCalculoHCTrayectos.stream()
                 .filter(registro -> registro.getTrayecto().equals(trayecto))
                 .findFirst().map(RegistroCalculoHCTrayecto::getValor)
                 .orElseThrow(() -> new IllegalArgumentException("El Miembro no tiene ningun registro de HC para el Trayecto especificado"));
-    }*/
+    }
 
 }

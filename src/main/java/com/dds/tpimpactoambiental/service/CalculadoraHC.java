@@ -140,7 +140,7 @@ public class CalculadoraHC {
         }
         return hcTotal;
     }
-/*
+
     public Cantidad hcMensualTrayectosOrganizacion(Organizacion organizacion, LocalDate mes) {
         List<Trayecto> trayectosDelMes = organizacion.getTrayectosRealizadosPorMiembrosEnFecha(mes);
 
@@ -248,7 +248,7 @@ public class CalculadoraHC {
 
     @Transactional
     public Cantidad hcAnualClasificacionDeOrganizacion(Clasificacion clasificacion, int anio) {
-        List<Organizacion> organizacionesConClasificacion = organizacionRepository.getOrganizacionesConClasificacion(clasificacion);
+        List<Organizacion> organizacionesConClasificacion = organizacionRepository.findByClasificacion(clasificacion);
         List<Cantidad> hcsOrganizaciones = organizacionesConClasificacion.stream()
                 .map(organizacion -> hcAnualOrganizacion(organizacion, anio))
                 .collect(Collectors.toList());
@@ -276,7 +276,7 @@ public class CalculadoraHC {
         }
         return hcsTotalesPorClasificacion;
     }
-*/
+
     /*
     //Fijarse la repeticion
     public double impactoHCMiembroMensual(Miembro miembro, LocalDate mesElegido) {

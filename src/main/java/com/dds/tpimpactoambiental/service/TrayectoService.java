@@ -27,15 +27,15 @@ public class TrayectoService {
     private final MemberRepository miembroRepository;
     private final MedioTransporteRepository medioDeTransporteRepository;
     private final CalculadoraDistancias calculadoraDistancias;
-    //private final CalculadoraHC calculadoraHC;
+    private final CalculadoraHC calculadoraHC;
 
-    public TrayectoService(TrayectoRepository repository, TrayectoRepository trayectoRepository, LugarRepository lugarRepository, MemberRepository miembroRepository, MedioTransporteRepository medioDeTransporteRepository, CalculadoraDistancias calculadoraDistancias) {
+    public TrayectoService(TrayectoRepository trayectoRepository, LugarRepository lugarRepository, MemberRepository miembroRepository, MedioTransporteRepository medioDeTransporteRepository, CalculadoraDistancias calculadoraDistancias, CalculadoraHC calculadoraHC) {
         this.trayectoRepository = trayectoRepository;
         this.lugarRepository = lugarRepository;
         this.miembroRepository = miembroRepository;
         this.medioDeTransporteRepository = medioDeTransporteRepository;
         this.calculadoraDistancias = calculadoraDistancias;
-        //this.calculadoraHC = calculadoraHC;
+        this.calculadoraHC = calculadoraHC;
     }
 
     @Transactional
@@ -64,7 +64,7 @@ public class TrayectoService {
         }
         trayectoRepository.save(trayecto);
 
-        //calcularHCTrayectoYGuardarRegistroCalculo(trayecto);
+        calcularHCTrayectoYGuardarRegistroCalculo(trayecto);
     }
 
     @Transactional
@@ -88,7 +88,7 @@ public class TrayectoService {
         tramo.calcularDistanciaRecorrida(calculadoraDistancias);
         return tramo;
     }
-/*
+
     private void calcularHCTrayectoYGuardarRegistroCalculo(Trayecto trayecto) {
         for (MiembroPorTrayecto miembroPorTrayecto : trayecto.getMiembrosPorTrayecto()) {
             Miembro miembro = miembroPorTrayecto.getMiembro();
@@ -96,5 +96,5 @@ public class TrayectoService {
             RegistroCalculoHCTrayecto registroCalculoHCTrayecto = new RegistroCalculoHCTrayecto(miembro, hcMensualTrayectoParaMiembro);
             trayecto.addRegistroCalculoHCTrayecto(registroCalculoHCTrayecto);
         }
-    }*/
+    }
 }
