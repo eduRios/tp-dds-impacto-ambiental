@@ -1,6 +1,7 @@
 package com.dds.tpimpactoambiental.service;
 
 
+import com.dds.tpimpactoambiental.dtos.ResponseWithResults;
 import com.dds.tpimpactoambiental.dtos.TramoDto;
 import com.dds.tpimpactoambiental.dtos.TrayectoDto;
 import com.dds.tpimpactoambiental.model.*;
@@ -68,11 +69,11 @@ public class TrayectoService {
     }
 
     @Transactional
-    public ResponseEntity<Object> listarTrayectos() {
+    public ResponseWithResults<TrayectoDto> listarTrayectos() {
         List<TrayectoDto> dtos = trayectoRepository.getAll().stream()
                 .map(TrayectoDto::from)
                 .collect(Collectors.toList());
-        return new ResponseEntity<>(dtos,HttpStatus.OK);
+        return new ResponseWithResults<>(HttpStatus.OK, dtos);
     }
 
     private Tramo crearTramo(Trayecto trayecto, TramoDto tramoDto) {

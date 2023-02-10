@@ -1,5 +1,6 @@
 package com.dds.tpimpactoambiental.controller;
 
+import com.dds.tpimpactoambiental.dtos.ResponseWithResults;
 import com.dds.tpimpactoambiental.dtos.TrayectoDto;
 import com.dds.tpimpactoambiental.dtos.response.Response;
 import com.dds.tpimpactoambiental.service.TrayectoService;
@@ -10,6 +11,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
+@CrossOrigin(origins = "http://localhost:4200", maxAge = 3600)
 @RequestMapping("/api/trayecto")
 public class TrayectoController {
 
@@ -20,5 +22,10 @@ public class TrayectoController {
     public ResponseEntity<Response> crearTrayecto(@RequestBody TrayectoDto trayectoDto) {
         trayectoService.crearTrayecto(trayectoDto);
         return ResponseEntityUtils.toResponseEntity(new Response(HttpStatus.CREATED,"Trayecto creado"));
+    }
+
+    @GetMapping
+    public ResponseEntity<ResponseWithResults<TrayectoDto>> listarTrayectos() {
+        return ResponseEntityUtils.toResponseEntity(trayectoService.listarTrayectos());
     }
 }
