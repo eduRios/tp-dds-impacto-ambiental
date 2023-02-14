@@ -24,6 +24,10 @@ public class TipoMedioDeTransporteService {
         return repository.getByNombre(nombre);
     }
 
+    public TipoMedioDeTransporte getById(Long id) {
+        return repository.getById(id);
+    }
+
     @Transactional
     public void seedData() {
         if (repository.hasData()) {

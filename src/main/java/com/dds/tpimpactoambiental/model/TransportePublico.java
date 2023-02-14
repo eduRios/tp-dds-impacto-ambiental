@@ -8,7 +8,7 @@ import java.util.List;
 @DiscriminatorValue(value = "transporte publico")
 public class TransportePublico extends MedioTransporte{
 
-    String linea;
+    private String linea;
 
     @OneToMany(mappedBy = "transportePublico", cascade = CascadeType.ALL)
     private List<Parada> paradas = new ArrayList<>();

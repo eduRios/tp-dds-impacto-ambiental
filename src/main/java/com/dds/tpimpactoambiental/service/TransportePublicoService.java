@@ -1,5 +1,8 @@
 package com.dds.tpimpactoambiental.service;
 
+import com.dds.tpimpactoambiental.dtos.ParadaDto;
+import com.dds.tpimpactoambiental.dtos.request.CrearTransportePublicoRequest;
+import com.dds.tpimpactoambiental.dtos.response.Response;
 import com.dds.tpimpactoambiental.enums.TipoCombustible;
 import com.dds.tpimpactoambiental.model.*;
 import com.dds.tpimpactoambiental.repository.*;
@@ -30,11 +33,11 @@ public class TransportePublicoService {
     @Autowired
     private LocalidadRepository localidadRepository;
 
-/*
+
     @Transactional
-    public BaseResponse crearTransportePublico(CrearTransportePublicoRequest request) {
-        if (repository.getByLinea(request.getLinea()).isPresent()) {
-            return new BaseResponse(HttpStatus.BAD_REQUEST, "Ya existe un TransportePublico con la linea especificada");
+    public Response crearTransportePublico(CrearTransportePublicoRequest request) {
+        if (medioTransporteRepository.getByLinea(request.getLinea()).isPresent()) {
+            return new Response(HttpStatus.BAD_REQUEST, "Ya existe un TransportePublico con la linea especificada");
         }
 
         Combustible combustible = combustibleRepository.getById(request.getIdCombustible());
@@ -74,9 +77,9 @@ public class TransportePublicoService {
             transportePublico.addParada(parada);
         }
 
-        this.save(transportePublico);
-        return new BaseResponse(HttpStatus.CREATED);
-    }*/
+        medioTransporteRepository.save(transportePublico);
+        return new Response(HttpStatus.CREATED);
+    }
 
     @Transactional
     public void seedData() {
