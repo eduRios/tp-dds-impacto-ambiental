@@ -53,7 +53,7 @@ public class ExcelService {
 
             while (rowIterator.hasNext()) {
                 Row row = rowIterator.next();
-                if (ExcelHelper.cellIsEmpty(row.getCell(0))) {
+                if (ExcelHelper.cellIsEmpty(row.getCell(1))) {
                     break;
                 }
 

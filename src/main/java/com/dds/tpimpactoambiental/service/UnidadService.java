@@ -1,10 +1,13 @@
 package com.dds.tpimpactoambiental.service;
 
 import com.dds.tpimpactoambiental.dtos.ResponseWithResults;
+import com.dds.tpimpactoambiental.dtos.RowRelacionUnidades;
 import com.dds.tpimpactoambiental.dtos.UnidadDto;
 import com.dds.tpimpactoambiental.model.Cantidad;
+import com.dds.tpimpactoambiental.model.RelacionUnidades;
 import com.dds.tpimpactoambiental.model.TipoUnidad;
 import com.dds.tpimpactoambiental.model.Unidad;
+import com.dds.tpimpactoambiental.repository.RelacionUnidadesRepository;
 import com.dds.tpimpactoambiental.repository.TipoUnidadRepository;
 import com.dds.tpimpactoambiental.repository.UnidadRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,9 +15,13 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
+import java.util.function.Function;
 import java.util.stream.Collectors;
 
 @Service
@@ -25,6 +32,11 @@ public class UnidadService {
     @Autowired
     private TipoUnidadRepository tipoUnidadRepository;
 
+    @Autowired
+    private ExcelService excelService;
+
+    @Autowired
+    private RelacionUnidadesRepository relacionUnidadesRepository;
     @Transactional
     public Optional<Unidad> getBySimbolo(String simbolo) {
         return repository.getBySimbolo(simbolo);
@@ -45,7 +57,7 @@ public class UnidadService {
                 .orElse(new Cantidad(this.getBySimbolo(unidadPorDefecto).get(), 0));
     }
 
-
+    @Transactional
     public void seedData() {
         boolean hasData = repository.hasData();
         if (hasData) {
@@ -54,7 +66,7 @@ public class UnidadService {
         }
 
         seedUnidades();
-        //seedRelacionesUnidades();
+        seedRelacionesUnidades();
     }
 
     private void seedUnidades() {
@@ -98,7 +110,7 @@ public class UnidadService {
         Iterable<TipoUnidad> iterable = Arrays.asList(longitud, masa, volumen, energia, equivalenteCarbono, unidadesCompuestas);
         tipoUnidadRepository.saveAll(iterable);
     }
-/*
+
     private void seedRelacionesUnidades() {
         try {
             ClassLoader classLoader = Thread.currentThread().getContextClassLoader();
@@ -108,8 +120,8 @@ public class UnidadService {
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
-    }*/
-/*
+    }
+
     private void seedRelacionesUnidades(List<RowRelacionUnidades> rows) {
         for (RowRelacionUnidades row : rows) {
             String simboloUnidadIzquierda = row.getUnidadIzquierda();
@@ -137,8 +149,15 @@ public class UnidadService {
                 unidadProducto.addRelacionEnProducto(relacion);
             if (unidadCociente != null)
                 unidadCociente.addRelacionEnCociente(relacion);
-
-            this.saveAll(Arrays.asList(unidadIzquierda, unidadDerecha, unidadProducto, unidadCociente));
+            relacionUnidadesRepository.save(relacion);
+            saveAll(Arrays.asList(unidadIzquierda, unidadDerecha, unidadProducto, unidadCociente));
         }
-    }*/
+    }
+
+    public List<Unidad> saveAll(List<Unidad> entities) {
+        return entities.stream()
+                .filter(Objects::nonNull)
+                .map(repository::save)
+                .collect(Collectors.toList());
+    }
 }

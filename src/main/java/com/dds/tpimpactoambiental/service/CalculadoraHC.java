@@ -97,7 +97,7 @@ public class CalculadoraHC {
     public Cantidad hcMensualDatosActividadOrganizacion(Organizacion organizacion, LocalDate mes) {
         RegistroCalculoHCDatoActividad registroMensual = organizacion.getRegistrosCalculoHCDatoActividad().stream()
                 .filter(registro -> registro.getPeriodicidad() == Periodicidad.MENSUAL
-                                    && registro.getPeriodoImputacion().isEqual(mes))
+                                    && registro.getPeriodoImputacion().getYear() == mes.getYear())
                 .findFirst()
                 .orElseThrow(() -> new IllegalArgumentException("No hay ningun registro de HC mensual para la fecha " + DateTimeUtils.dateToString(mes, false)));
         Optional<RegistroCalculoHCDatoActividad> registroAnual = organizacion.getRegistrosCalculoHCDatoActividad().stream()

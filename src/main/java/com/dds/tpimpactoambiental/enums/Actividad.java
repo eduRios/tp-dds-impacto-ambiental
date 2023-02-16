@@ -17,11 +17,14 @@ public enum Actividad {
 
     public static Actividad from(String nombre) {
         return Stream.of(Actividad.values())
-                .filter(actividad -> Normalizer.normalize(actividad.nombre, Normalizer.Form.NFD).replaceAll("[^\\p{ASCII}]", "").equals(nombre))
+                .filter(actividad -> normalize(actividad.nombre).equals(normalize(nombre)))
                 .findAny()
                 .orElseThrow(() -> new IllegalArgumentException("No se reconoce la actividad: " + nombre));
     }
 
+    private static String normalize(String nombre){
+        return Normalizer.normalize(nombre, Normalizer.Form.NFD).replaceAll("[^\\p{ASCII}]", "");
+    }
     @Override
     public String toString() {
         return nombre;
