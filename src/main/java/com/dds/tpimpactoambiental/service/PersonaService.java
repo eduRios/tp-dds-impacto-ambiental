@@ -95,13 +95,13 @@ public class PersonaService {
         sector.addMiembro(miembroLucas);
         miembroLucas.setFechaIngreso(LocalDate.now());
 
-        Usuario usuarioEchi = usuarioService.crearUsuario("cosmefula", "fula1927");
+        Usuario usuarioEchi = usuarioService.crearUsuario("cosmefula", "fula1927","ROLE_USER");
         miembroCosme.setUsuario(usuarioEchi);
 
-        Usuario usuarioMili = usuarioService.crearUsuario("bari777", "wowesmivida12");
+        Usuario usuarioMili = usuarioService.crearUsuario("bari777", "wowesmivida12", "ROLE_USER");
         miembroBari.setUsuario(usuarioMili);
 
-        Usuario usuarioLucas = usuarioService.crearUsuario("lucasesposito", "lucasesposito");
+        Usuario usuarioLucas = usuarioService.crearUsuario("lucasesposito", "lucasesposito","ROLE_USER");
         miembroLucas.setUsuario(usuarioLucas);
 
         personaRepository.saveAll(Arrays.asList(personaCosme, personaBari, personaLucas));

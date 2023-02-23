@@ -1,12 +1,13 @@
-package dds.grupo4.tpimpacto.controllers;
+package com.dds.tpimpactoambiental.controller;
 
+import com.dds.tpimpactoambiental.dtos.MiembroDto;
+import com.dds.tpimpactoambiental.dtos.ResponseWithResults;
+import com.dds.tpimpactoambiental.service.MiembroService;
 import com.github.jknack.handlebars.Handlebars;
 import com.github.jknack.handlebars.Template;
-import dds.grupo4.tpimpacto.dtos.MiembroDto;
-import dds.grupo4.tpimpacto.dtos.base.ResponseWithResults;
-import dds.grupo4.tpimpacto.services.MiembroService;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -16,6 +17,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 @RestController
+@CrossOrigin(origins = "http://localhost:4200", maxAge = 3600)
 @RequestMapping("/liviano/miembro")
 public class MiembroControllerLiviano {
 

@@ -53,7 +53,7 @@ public class UsuarioService {
             return new RegistrarUsuarioResponse( HttpStatus.FORBIDDEN,"No se encontro la solicitud con el ID especificado");
         }
 
-        Usuario usuario = crearUsuario(request.getUsername(), request.getPassword());
+        Usuario usuario = crearUsuario(request.getUsername(), request.getPassword(),"ROLE_USER");
         userRepository.save(usuario);
         Miembro miembro = solicitud.getMiembro();
         miembro.setUsuario(usuario);
@@ -81,9 +81,9 @@ public class UsuarioService {
         return userRepository.findByUsername(username).isPresent();
     }
 
-    public Usuario crearUsuario(String username, String password) {
+    public Usuario crearUsuario(String username, String password, String rolString) {
         Usuario usuario = new Usuario(username, password);
-        Rol rol = rolRepository.findByName("USER");
+        Rol rol = rolRepository.findByName(rolString);
         usuario.setRoles(new ArrayList<>());
         usuario.getRoles().add(rol);
         return usuario;

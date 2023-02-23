@@ -27,8 +27,8 @@ public class TpImpactoAmbientalApplication {
 									  TransportePublicoService transportePublicoService, PersonaService personaService,
 									  TipoConsumoService tipoConsumoService){
 		return (args) -> {
-			Rol admin = new Rol("ADMIN");
-			Rol user = new Rol("USER");
+			Rol admin = new Rol("ROLE_ADMIN");
+			Rol user = new Rol("ROLE_USER");
 			rolRepository.save(admin);
 			rolRepository.save(user);
 
