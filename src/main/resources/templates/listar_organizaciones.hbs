@@ -1,0 +1,24 @@
+<table class="table table-bordered table-striped">
+    <thead>
+        <tr>
+            <th>Id</th>
+            <th>Razon social</th>
+            <th>Clasificacion</th>
+            <th>Tipo organizacion</th>
+            <th>Dias habiles por semana</th>
+            <th>Factor K</th>
+        </tr>
+    </thead>
+    <tbody>
+        {{#each listaOrganizaciones}}
+            <tr>
+                <td>{{id}}</td>
+                <td>{{razonSocial}}</td>
+                <td>{{clasificacion.text}}</td>
+                <td>{{tipoOrganizacion.text}}</td>
+                <td>{{cantDiasHabilesPorSemana}}</td>
+                <td>{{factorK.text}}</td>
+            </tr>
+        {{/each}}
+    </tbody>
+</table>

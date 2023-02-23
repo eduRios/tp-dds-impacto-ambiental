@@ -1,0 +1,22 @@
+<table class="table table-bordered table-striped">
+    <thead>
+        <tr>
+            <th>Id</th>
+            <th>Persona</th>
+            <th>Usuario</th>
+            <th>Sector</th>
+            <th>Organizacion</th>
+        </tr>
+    </thead>
+    <tbody>
+        {{#each listaMiembros}}
+            <tr>
+                <td>{{id}}</td>
+                <td>{{persona.text}}</td>
+                <td>{{usuario.text}}</td>
+                <td>{{sector.text}}</td>
+                <td>{{organizacion.text}}</td>
+            </tr>
+        {{/each}}
+    </tbody>
+</table>
