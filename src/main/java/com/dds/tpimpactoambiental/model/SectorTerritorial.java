@@ -30,6 +30,11 @@ public class SectorTerritorial extends BaseEntity {
     public SectorTerritorial() {
     }
 
+    public SectorTerritorial(String nombre, TipoSectorTerritorial tipoSectorTerritorial) {
+        this.nombre = nombre;
+        this.tipoSectorTerritorial = tipoSectorTerritorial;
+    }
+
     public SectorTerritorial(String nombre, List<AgenteSectorial> agentesSectoriales, List<Organizacion> organizaciones, TipoSectorTerritorial tipo) {
         this.nombre = nombre;
         this.agentesSectoriales = agentesSectoriales;
@@ -67,6 +72,11 @@ public class SectorTerritorial extends BaseEntity {
 
     public void setTipoSectorTerritorial(TipoSectorTerritorial tipoSectorTerritorial) {
         this.tipoSectorTerritorial = tipoSectorTerritorial;
+    }
+
+    public void addOrganizacion(Organizacion organizacion) {
+        organizaciones.add(organizacion);
+        organizacion.getSectoresTerritoriales().add(this);
     }
 
     @Override

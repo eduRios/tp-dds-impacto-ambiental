@@ -43,7 +43,7 @@ public class ReporteHCController {
         return ResponseEntityUtils.toResponseEntity(new ResponseWithResults<>(HttpStatus.OK, sectoresTerritorialesConHCs));
     }
 
-    @GetMapping("/composicion-de-sector-territorial/{id}")
+    @GetMapping("/composicion-de-sector-territorial/{idSectorTerritorial}")
     public ResponseEntity<ResponseWithResults<OrganizacionConHC>> composicionDeSectorTerritorial(@PathVariable long idSectorTerritorial) {
         SectorTerritorial sectorTerritorial = sectorTerritorialService.getById(idSectorTerritorial);
         Map<Organizacion, Cantidad> hcsPorOrganizacion = calculadoraHC.hcTotalSectorTerritorialSeparadoPorOrganizacion(sectorTerritorial);

@@ -25,7 +25,7 @@ public class TpImpactoAmbientalApplication {
 	public CommandLineRunner initData(RolRepository rolRepository, GeoService geoService, OrganizacionService organizacionService,
 									  UnidadService unidadService, TipoMedioDeTransporteService tipoMedioDeTransporteService,
 									  TransportePublicoService transportePublicoService, PersonaService personaService,
-									  TipoConsumoService tipoConsumoService){
+									  TipoConsumoService tipoConsumoService, SectorTerritorialService sectorTerritorialService){
 		return (args) -> {
 			Rol admin = new Rol("ROLE_ADMIN");
 			Rol user = new Rol("ROLE_USER");
@@ -39,6 +39,7 @@ public class TpImpactoAmbientalApplication {
 			tipoConsumoService.seedData();
 			organizacionService.seedData();
 			personaService.seedData();
+			sectorTerritorialService.seedData();
 		};
 	}
 
