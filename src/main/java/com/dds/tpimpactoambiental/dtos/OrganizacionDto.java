@@ -35,7 +35,7 @@ public class OrganizacionDto extends BaseEntityDto {
         dto.setFactorK(CantidadDto.from(organizacion.getFactorK()));
         dto.setCantDiasHabilesPorSemana(organizacion.getCantDiasHabilesPorSemana());
         dto.setSectores(ListUtils.toIdTextPairList(organizacion.getSectores()));
-        //dto.setSolicitudes(ListUtils.toIdTextPairList(organizacion.getSolicitudes()));
+        dto.setSolicitudes(ListUtils.toIdTextPairList(organizacion.getSolicitudes()));
         //dto.setContactos(organizacion.getContactos().stream().map(ContactoDto::from).collect(Collectors.toList()));
         return dto;
     }

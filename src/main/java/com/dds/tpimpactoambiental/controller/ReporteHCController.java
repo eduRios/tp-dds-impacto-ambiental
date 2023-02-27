@@ -1,15 +1,13 @@
 package com.dds.tpimpactoambiental.controller;
 
-import com.dds.tpimpactoambiental.dtos.ClasificacionConHC;
-import com.dds.tpimpactoambiental.dtos.OrganizacionConHC;
-import com.dds.tpimpactoambiental.dtos.ResponseWithResults;
-import com.dds.tpimpactoambiental.dtos.SectorTerritorialConHC;
+import com.dds.tpimpactoambiental.dtos.*;
 import com.dds.tpimpactoambiental.enums.Clasificacion;
 import com.dds.tpimpactoambiental.model.Cantidad;
 import com.dds.tpimpactoambiental.model.Organizacion;
 import com.dds.tpimpactoambiental.model.SectorTerritorial;
 import com.dds.tpimpactoambiental.repository.SectorTerritorialRepository;
 import com.dds.tpimpactoambiental.service.CalculadoraHC;
+import com.dds.tpimpactoambiental.service.SectorTerritorialService;
 import com.dds.tpimpactoambiental.utils.ResponseEntityUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -28,12 +26,11 @@ public class ReporteHCController {
     @Autowired
     private CalculadoraHC calculadoraHC;
     @Autowired
-    private SectorTerritorialRepository sectorTerritorialService;
-
+    private SectorTerritorialService sectorTerritorialService;
 
     @GetMapping("/hc-por-sector-territorial")
     public ResponseEntity<ResponseWithResults<SectorTerritorialConHC>> hcPorSectorTerritorial() {
-        List<SectorTerritorial> sectoresTerritoriales = sectorTerritorialService.findAll();
+        List<SectorTerritorial> sectoresTerritoriales = sectorTerritorialService.getAll();
         List<SectorTerritorialConHC> sectoresTerritorialesConHCs = sectoresTerritoriales.stream()
                 .map(sectorTerritorial -> {
                     Cantidad hc = calculadoraHC.hcTotalSectorTerritorial(sectorTerritorial);
@@ -60,6 +57,11 @@ public class ReporteHCController {
                 .map(entry -> ClasificacionConHC.from(entry.getKey(), entry.getValue()))
                 .collect(Collectors.toList());
         return ResponseEntityUtils.toResponseEntity(new ResponseWithResults<>(HttpStatus.OK, clasificacionesConHCs));
+    }
+    
+    @GetMapping("/listar")
+    public ResponseEntity<ResponseWithResults<IdTextPair>> listarSectorTerritorial() {
+        return ResponseEntityUtils.toResponseEntity(sectorTerritorialService.getAllDtos());
     }
 
 }

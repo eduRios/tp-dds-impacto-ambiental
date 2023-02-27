@@ -13,6 +13,11 @@ public class SectorTerritorialConHC {
         sectorTerritorialConHC.setHc(CantidadDto.from(hc));
         return sectorTerritorialConHC;
     }
+    public static SectorTerritorialConHC from(SectorTerritorial sectorTerritorial) {
+        SectorTerritorialConHC sectorTerritorialConHC = new SectorTerritorialConHC();
+        sectorTerritorialConHC.setSectorTerritorial(new IdTextPair(sectorTerritorial));
+        return sectorTerritorialConHC;
+    }
 
     public SectorTerritorialConHC() {
     }
