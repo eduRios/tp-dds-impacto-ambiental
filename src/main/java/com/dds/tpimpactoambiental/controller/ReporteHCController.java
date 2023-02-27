@@ -58,7 +58,7 @@ public class ReporteHCController {
                 .collect(Collectors.toList());
         return ResponseEntityUtils.toResponseEntity(new ResponseWithResults<>(HttpStatus.OK, clasificacionesConHCs));
     }
-    
+
     @GetMapping("/listar")
     public ResponseEntity<ResponseWithResults<IdTextPair>> listarSectorTerritorial() {
         return ResponseEntityUtils.toResponseEntity(sectorTerritorialService.getAllDtos());
