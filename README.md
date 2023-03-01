@@ -29,6 +29,10 @@
       "id": 1,
       "text": "UNIVERSIDAD"
    },
+   "sectorTerritorial" : {
+      "id": 1,
+      "text": "Buenos Aires"
+   },
    "factorK" : {}
 }
 ```

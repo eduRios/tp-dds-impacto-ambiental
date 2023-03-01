@@ -13,6 +13,7 @@ public class OrganizacionDto extends BaseEntityDto {
     private String razonSocial;
     private IdTextPair tipoOrganizacion;
     private IdTextPair clasificacion;
+    private IdTextPair sectorTerritorial;
     private CantidadDto factorK;
     private int cantDiasHabilesPorSemana;
     private List<IdTextPair> sectores = new ArrayList<>();
@@ -102,5 +103,13 @@ public class OrganizacionDto extends BaseEntityDto {
 
     public void setSolicitudes(List<IdTextPair> solicitudes) {
         this.solicitudes = solicitudes;
+    }
+
+    public IdTextPair getSectorTerritorial() {
+        return sectorTerritorial;
+    }
+
+    public void setSectorTerritorial(IdTextPair sectorTerritorial) {
+        this.sectorTerritorial = sectorTerritorial;
     }
 }

@@ -49,14 +49,20 @@ public class OrganizacionService {
     @Autowired
     private CalculadoraHC calculadoraHC;
 
+    @Autowired
+    private SectorTerritorialService sectorTerritorialService;
+
     public OrganizacionService() {
     }
 
+    @Transactional
     public ResponseEntity<Object> crearOrganizacion(OrganizacionDto request){
         ResponseCrearOrganizacion response = new ResponseCrearOrganizacion();
         Organizacion organizacion = new Organizacion();
         updateEntityFieldsFromDto(organizacion, request);
         organizationRepository.save(organizacion);
+        SectorTerritorial sectorTerritorial = sectorTerritorialService.getById(request.getSectorTerritorial().getId());
+        sectorTerritorial.addOrganizacion(organizacion);
         response.setMessage("Creacion existosa");
         response.setIdOrganizacion(organizacion.getId());
         return ResponseEntity.status(HttpStatus.CREATED).body(response);

@@ -49,12 +49,15 @@ public class SectorTerritorialService {
     public void seedData() {
 
         SectorTerritorial sectorTerritorial = new SectorTerritorial("Buenos Aires", TipoSectorTerritorial.Provincias);
+        SectorTerritorial sectorTerritorial2 = new SectorTerritorial("CABA", TipoSectorTerritorial.Municipios);
         Organizacion organizacion = organizationRepository.findByRazonSocial("Organizacion TEST");
         sectorTerritorial.addOrganizacion(organizacion);
+        sectorTerritorial2.addOrganizacion(organizacion);
 
-        sectorTerritorialRepository.save(sectorTerritorial);
+        sectorTerritorialRepository.saveAll(Arrays.asList(sectorTerritorial,sectorTerritorial2));
         AgenteSectorial agenteSectorial = new AgenteSectorial(sectorTerritorial,"Cosme", "Fulanito");
+        AgenteSectorial agenteSectorial2 = new AgenteSectorial(sectorTerritorial2,"Edu", "Rios");
 
-        repository.saveAll(Arrays.asList(agenteSectorial));
+        repository.saveAll(Arrays.asList(agenteSectorial,agenteSectorial2));
     }
 }
