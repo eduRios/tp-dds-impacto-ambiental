@@ -95,6 +95,8 @@ public class TransportePublicoService {
         TransportePublico linea15 = new TransportePublico(
                 "15", new Combustible(TipoCombustible.NAFTA, unidadRepository.getBySimbolo("m3").get()),
                 10);
+
+        VehiculoParticular auto = new VehiculoParticular("fiat",new Combustible(TipoCombustible.GASOIL, unidadRepository.getBySimbolo("m3").get()),10);
         colectivo.addMedioDeTransporte(linea15);
 
         Localidad localidadVillaCrespo = localidadRepository.getByNombre("VILLA CRESPO");
@@ -124,6 +126,8 @@ public class TransportePublicoService {
 
         linea15.addParadas(Arrays.asList(parada1, parada2, parada3, parada4));
 
+        combustibleRepository.save(auto.getCombustible());
+        medioTransporteRepository.save(auto);
         medioTransporteRepository.saveAll(Arrays.asList(linea15));
     }
 }

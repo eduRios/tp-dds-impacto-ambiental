@@ -50,7 +50,7 @@ public class SectorTerritorialService {
 
         SectorTerritorial sectorTerritorial = new SectorTerritorial("Buenos Aires", TipoSectorTerritorial.Provincias);
         SectorTerritorial sectorTerritorial2 = new SectorTerritorial("CABA", TipoSectorTerritorial.Municipios);
-        Organizacion organizacion = organizationRepository.findByRazonSocial("Organizacion TEST");
+        Organizacion organizacion = organizationRepository.findByRazonSocial("UTN MEDRANO");
         sectorTerritorial.addOrganizacion(organizacion);
         sectorTerritorial2.addOrganizacion(organizacion);
 

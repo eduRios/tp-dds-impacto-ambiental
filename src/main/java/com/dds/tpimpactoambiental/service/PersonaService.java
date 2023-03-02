@@ -87,7 +87,7 @@ public class PersonaService {
         Miembro miembroLucas = new Miembro(personaLucas);
         personaLucas.addMiembro(miembroLucas);
 
-        Sector sector = sectorRepository.getByNombre("Sector TEST");
+        Sector sector = sectorRepository.getByNombre("BEDELIA");
         sector.addMiembro(miembroCosme);
         miembroCosme.setFechaIngreso(LocalDate.now());
         sector.addMiembro(miembroBari);

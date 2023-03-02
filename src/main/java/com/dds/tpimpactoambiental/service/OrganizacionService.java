@@ -189,17 +189,17 @@ public class OrganizacionService {
         }
 
         Organizacion organizacion = new Organizacion(
-                "Organizacion TEST",
+                "UTN MEDRANO",
                 TipoOrganizacion.EMPRESA,
-                Clasificacion.EMPRESA_SECTOR_PRIMARIO,
+                Clasificacion.UNIVERSIDAD,
                 new Cantidad(unidadService.getBySimbolo("1/kg").get(), 2),
                 5
         );
         Direccion direccionEspacio = new Direccion("MEDRANO", "951");
         Localidad localidad = localidadRepository.getByNombre("ALMAGRO");
         localidad.addDireccion(direccionEspacio);
-        Espacio espacio = new Espacio(direccionEspacio, "Espacio TEST", TipoEspacio.TRABAJO);
-            Sector sector = new Sector("Sector TEST", organizacion, espacio);
+        Espacio espacio = new Espacio(direccionEspacio, "Espacio MEDRANO", TipoEspacio.TRABAJO);
+            Sector sector = new Sector("BEDELIA", organizacion, espacio);
         organizacion.addSector(sector);
         organizationRepository.saveAll(Arrays.asList(organizacion));
     }

@@ -190,3 +190,41 @@ en este caso se debe ejecutar desde el form-data de postman con los siguientes p
 * **_Trayectoria_:** ya esta desarrollado el modelado de trayectoria, tramo, y medioTransporte. 
 tambien se hizo la relacion tramo x medioTransporte (OneToOne).
 falta la relacion trayectoria x tramo (ManyToOne) y trayectoria x mienbro (OneToMany) mas test.
+* **_Request_:**
+```json
+{
+   "lugarInicio" : {
+      "id": 5
+   },
+   "lugarFin" : {
+      "id": 6
+   },
+   "miembrosPorTrayecto":[
+      {
+         "miembro":{
+            "id": 2
+         }
+      }
+   ],
+   "tramos" : [
+      {
+         "medioDeTransporte" : {
+            "id" : 2
+         },
+         "lugarInicio" : {
+            "id" : 1
+         },
+         "lugarFin" : {
+            "id" : 2
+         },
+         "miembros":[
+            {
+               "id": 2
+            }
+         ]
+      }
+   ],
+   "fechaInicio" : "2014-01-01T20:28:56.782Z",
+   "fechaFin" : "2014-01-01T23:28:56.782Z"
+}
+```

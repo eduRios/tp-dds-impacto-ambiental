@@ -11,7 +11,7 @@ public class TramoDto extends BaseEntityDto {
     private LugarDto lugarInicio;
     private LugarDto lugarFin;
     private List<IdTextPair> miembros;
-    //private CantidadDto distanciaRecorrida;
+    private CantidadDto distanciaRecorrida;
 
 
     public TramoDto() {
@@ -27,7 +27,7 @@ public class TramoDto extends BaseEntityDto {
         dto.setLugarInicio(LugarDto.from(tramo.getLugarInicio()));
         dto.setLugarFin(LugarDto.from(tramo.getLugarFin()));
         dto.setMiembros(ListUtils.toIdTextPairList(tramo.getMiembros()));
-        //dto.setDistanciaRecorrida(CantidadDto.from(tramo.getDistanciaRecorrida()));
+        dto.setDistanciaRecorrida(CantidadDto.from(tramo.getDistanciaRecorrida()));
         return dto;
     }
 
@@ -61,5 +61,13 @@ public class TramoDto extends BaseEntityDto {
 
     public void setMiembros(List<IdTextPair> miembros) {
         this.miembros = miembros;
+    }
+
+    public CantidadDto getDistanciaRecorrida() {
+        return distanciaRecorrida;
+    }
+
+    public void setDistanciaRecorrida(CantidadDto distanciaRecorrida) {
+        this.distanciaRecorrida = distanciaRecorrida;
     }
 }

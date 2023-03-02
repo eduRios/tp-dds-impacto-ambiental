@@ -2,6 +2,7 @@ package com.dds.tpimpactoambiental.dtos;
 
 import com.dds.tpimpactoambiental.model.Espacio;
 import com.dds.tpimpactoambiental.model.Lugar;
+import com.dds.tpimpactoambiental.model.Parada;
 
 //@NoArgsConstructor
 public class LugarDto extends BaseEntityDto {
@@ -25,8 +26,8 @@ public class LugarDto extends BaseEntityDto {
     private static String getTipo(Lugar lugar) {
         if (lugar instanceof Espacio)
             return "Espacio";
-        /*if (lugar instanceof Parada)
-            return "Parada";*/
+        if (lugar instanceof Parada)
+            return "Parada";
         return "?";
     }
 

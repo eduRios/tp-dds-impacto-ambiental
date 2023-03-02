@@ -65,7 +65,7 @@ public class TrayectoService {
         }
         trayectoRepository.save(trayecto);
 
-        calcularHCTrayectoYGuardarRegistroCalculo(trayecto);
+        //calcularHCTrayectoYGuardarRegistroCalculo(trayecto);
     }
 
     @Transactional

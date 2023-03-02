@@ -3,12 +3,8 @@ package com.dds.tpimpactoambiental.service;
 import com.dds.tpimpactoambiental.dtos.MiembroDto;
 import com.dds.tpimpactoambiental.dtos.ResponseWithResults;
 import com.dds.tpimpactoambiental.dtos.request.RequestRegistrarMiembro;
-import com.dds.tpimpactoambiental.dtos.response.Response;
 import com.dds.tpimpactoambiental.dtos.response.ResponseRegistrarMiembro;
-import com.dds.tpimpactoambiental.model.Miembro;
-import com.dds.tpimpactoambiental.model.Persona;
-import com.dds.tpimpactoambiental.model.Sector;
-import com.dds.tpimpactoambiental.model.Solicitud;
+import com.dds.tpimpactoambiental.model.*;
 import com.dds.tpimpactoambiental.repository.MemberRepository;
 import com.dds.tpimpactoambiental.repository.PersonaRepository;
 import com.dds.tpimpactoambiental.repository.SectorRepository;
@@ -17,7 +13,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.HashMap;
 import java.util.List;
@@ -39,7 +34,7 @@ public class MiembroService {
 
     public ResponseEntity<Object> registrarMiembro(RequestRegistrarMiembro request){
         ResponseRegistrarMiembro response = new ResponseRegistrarMiembro();
-        Persona persona = personaRepository.getById(request.getPersona().getId());
+        Persona persona = personaRepository.findById(request.getPersona().getId()).get();
         if (persona == null) {
             response.setMessage("No existe ninguna Persona con el ID especificado");
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
@@ -51,6 +46,11 @@ public class MiembroService {
             return ResponseEntity.status(HttpStatus.EXPECTATION_FAILED).body(response);
         }
         Miembro miembro = new Miembro(persona);
+        Optional<Miembro> usuarioOptional = persona.getMiembros().stream().findAny();
+        if(usuarioOptional.isPresent()){
+            miembro.setUsuario(usuarioOptional.get().getUsuario());
+        }
+
         memberRepository.save(miembro);
         Solicitud solicitud = new Solicitud(miembro, sector.get());
         solicitudRepository.save(solicitud);
