@@ -9,20 +9,21 @@ public class RequestRegistrarMiembro {
     private String tipoDocumento;
     private String nroDocumento;
 
-    private long idPersona;
-    private long idOrganizacion;
-    private long idSector;
+    private IdTextPair persona;
+    private IdTextPair organizacion;
+    private IdTextPair sector;
 
     public RequestRegistrarMiembro() {
     }
 
-    public RequestRegistrarMiembro(String nombre, String apellido, String tipoDocumento, String nroDocumento, long idOrganizacion, long idSector) {
+    public RequestRegistrarMiembro(String nombre, String apellido, String tipoDocumento, String nroDocumento, IdTextPair persona, IdTextPair organizacion, IdTextPair sector) {
         this.nombre = nombre;
         this.apellido = apellido;
         this.tipoDocumento = tipoDocumento;
         this.nroDocumento = nroDocumento;
-        this.idOrganizacion = idOrganizacion;
-        this.idSector = idSector;
+        this.persona = persona;
+        this.organizacion = organizacion;
+        this.sector = sector;
     }
 
     public String getNombre() {
@@ -57,27 +58,27 @@ public class RequestRegistrarMiembro {
         this.nroDocumento = nroDocumento;
     }
 
-    public long getIdOrganizacion() {
-        return idOrganizacion;
+    public IdTextPair getPersona() {
+        return persona;
     }
 
-    public void setIdOrganizacion(long idOrganizacion) {
-        this.idOrganizacion = idOrganizacion;
+    public void setPersona(IdTextPair persona) {
+        this.persona = persona;
     }
 
-    public long getIdSector() {
-        return idSector;
+    public IdTextPair getOrganizacion() {
+        return organizacion;
     }
 
-    public void setIdSector(long idSector) {
-        this.idSector = idSector;
+    public void setOrganizacion(IdTextPair organizacion) {
+        this.organizacion = organizacion;
     }
 
-    public long getIdPersona() {
-        return idPersona;
+    public IdTextPair getSector() {
+        return sector;
     }
 
-    public void setIdPersona(long idPersona) {
-        this.idPersona = idPersona;
+    public void setSector(IdTextPair sector) {
+        this.sector = sector;
     }
 }

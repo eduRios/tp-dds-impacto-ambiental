@@ -32,7 +32,6 @@ public class MiembroService {
     private SectorRepository sectorRepository;
     @Autowired
     private MemberRepository  memberRepository;
-
     @Autowired
     private SolicitudRepository solicitudRepository;
     @Autowired
@@ -40,14 +39,14 @@ public class MiembroService {
 
     public ResponseEntity<Object> registrarMiembro(RequestRegistrarMiembro request){
         ResponseRegistrarMiembro response = new ResponseRegistrarMiembro();
-        Persona persona = personaRepository.getById(request.getIdPersona());
+        Persona persona = personaRepository.getById(request.getPersona().getId());
         if (persona == null) {
             response.setMessage("No existe ninguna Persona con el ID especificado");
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
         }
 
-        Optional<Sector> sector = sectorRepository.findById(request.getIdSector());
-        if (!sector.isPresent() || sector.get().getOrganizacion().getId() != request.getIdOrganizacion()) {
+        Optional<Sector> sector = sectorRepository.findById(request.getSector().getId());
+        if (!sector.isPresent() || sector.get().getOrganizacion().getId() != request.getOrganizacion().getId()) {
             response.setMessage("El sector no se encontro, o no pertenece a la organizacion especificada");
             return ResponseEntity.status(HttpStatus.EXPECTATION_FAILED).body(response);
         }

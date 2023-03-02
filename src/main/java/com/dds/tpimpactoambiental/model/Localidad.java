@@ -67,6 +67,9 @@ public class Localidad extends BaseGeoDato {
 
     @Override
     public String toString() {
-        return super.toString() + " (CP: " + codigoPostal + ")";
+        return super.toString() + ", " + this.getNombre() +
+                ", (CP: " + codigoPostal +
+                "), "+this.getMunicipio().getNombre()+
+                ", "+this.getMunicipio().getProvincia().getNombre();
     }
 }
